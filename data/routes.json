@@ -1,0 +1,1494 @@
+{
+  "routes": [
+    {
+      "id": "goat-rocks-snowgrass",
+      "name": "Goat Rocks - Snowgrass Flat",
+      "sub_region": "South Cascades",
+      "route_type": "loop",
+      "difficulty": "Hard",
+      "total_miles": 23.0,
+      "elevation_gain_ft": 3800,
+      "season": [
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Snowgrass Flat Trailhead",
+        "lat": 46.446,
+        "lon": -121.528
+      },
+      "bounding_box": {
+        "min_lat": 46.42,
+        "max_lat": 46.52,
+        "min_lon": -121.58,
+        "max_lon": -121.46
+      },
+      "water_crossings": [
+        {
+          "name": "Cispus River",
+          "lat": 46.4512,
+          "lon": -121.5341
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Goat Creek",
+          "type": "stream",
+          "cumulative_miles": 2.5
+        },
+        {
+          "name": "Snowgrass Flat tarns",
+          "type": "tarn",
+          "cumulative_miles": 7.5
+        },
+        {
+          "name": "Goat Lake",
+          "type": "lake",
+          "cumulative_miles": 16.5
+        },
+        {
+          "name": "Cispus River",
+          "type": "river",
+          "cumulative_miles": 19.5
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Snowgrass Flat Trailhead",
+          "lat": 46.446,
+          "lon": -121.528,
+          "elevation_ft": 4600,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Snowgrass Flat Camp",
+          "lat": 46.472,
+          "lon": -121.519,
+          "elevation_ft": 6500,
+          "cumulative_miles": 7.5
+        },
+        {
+          "name": "Goat Ridge High Point",
+          "lat": 46.489,
+          "lon": -121.505,
+          "elevation_ft": 7400,
+          "cumulative_miles": 12.0
+        },
+        {
+          "name": "Goat Lake Junction",
+          "lat": 46.465,
+          "lon": -121.498,
+          "elevation_ft": 6100,
+          "cumulative_miles": 16.5
+        },
+        {
+          "name": "Snowgrass Flat Trailhead",
+          "lat": 46.446,
+          "lon": -121.528,
+          "elevation_ft": 4600,
+          "cumulative_miles": 23.0
+        }
+      ],
+      "description": "A spectacular high-country loop through the heart of the Goat Rocks Wilderness, south of Mt. Rainier. The route climbs through old-growth forest to Snowgrass Flat - one of the finest wildflower meadows in the Cascades - then follows the exposed Goat Ridge with panoramic views of Mt. Adams, Rainier, and the volcanic spine of the South Cascades. A Cispus River ford on the return adds a technical element in early season.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No overnight permit required. Northwest Forest Pass required for trailhead parking."
+      }
+    },
+    {
+      "id": "enchantments-traverse",
+      "name": "Enchantments Traverse",
+      "sub_region": "Central Cascades",
+      "route_type": "thru",
+      "difficulty": "Epic",
+      "total_miles": 18.5,
+      "elevation_gain_ft": 4800,
+      "season": [
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Snow Lakes Trailhead",
+        "lat": 47.5412,
+        "lon": -120.81
+      },
+      "bounding_box": {
+        "min_lat": 47.51,
+        "max_lat": 47.56,
+        "min_lon": -120.84,
+        "max_lon": -120.76
+      },
+      "water_crossings": [
+        {
+          "name": "Icicle Creek",
+          "lat": 47.5421,
+          "lon": -120.8089
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Icicle Creek",
+          "type": "stream",
+          "cumulative_miles": 0.5
+        },
+        {
+          "name": "Snow Lakes",
+          "type": "lake",
+          "cumulative_miles": 4.5
+        },
+        {
+          "name": "Upper Enchantment Lakes",
+          "type": "lake",
+          "cumulative_miles": 8.0
+        },
+        {
+          "name": "Colchuck Lake",
+          "type": "lake",
+          "cumulative_miles": 14.0
+        },
+        {
+          "name": "Colchuck Creek",
+          "type": "stream",
+          "cumulative_miles": 16.5
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Snow Lakes Trailhead",
+          "lat": 47.5412,
+          "lon": -120.81,
+          "elevation_ft": 1850,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Snow Lakes",
+          "lat": 47.532,
+          "lon": -120.821,
+          "elevation_ft": 5400,
+          "cumulative_miles": 4.5
+        },
+        {
+          "name": "Upper Enchantments",
+          "lat": 47.528,
+          "lon": -120.839,
+          "elevation_ft": 7200,
+          "cumulative_miles": 8.5
+        },
+        {
+          "name": "Colchuck Lake",
+          "lat": 47.519,
+          "lon": -120.851,
+          "elevation_ft": 5570,
+          "cumulative_miles": 14.0
+        },
+        {
+          "name": "Stuart Lake Trailhead",
+          "lat": 47.515,
+          "lon": -120.869,
+          "elevation_ft": 3400,
+          "cumulative_miles": 18.5
+        }
+      ],
+      "description": "Washington's most celebrated alpine traverse - a one-way journey through a sculpted granite and larch wilderness above the Stuart Range. The route passes through the Upper, Core, and Lower Enchantment zones, each distinct in character: stark glacial polish and turquoise lakes above, dense larch forest and cascading streams below. A permit lottery controls access; the payoff is unmatched anywhere in the state.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "lottery",
+        "booking_system": "Recreation.gov",
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "Overnight permit required via Recreation.gov lottery (opens February, extremely competitive - plan a year ahead). Day-use quota also applies in peak season."
+      }
+    },
+    {
+      "id": "olympic-high-divide",
+      "name": "Olympic High Divide",
+      "sub_region": "Olympics",
+      "route_type": "loop",
+      "difficulty": "Hard",
+      "total_miles": 44.0,
+      "elevation_gain_ft": 9200,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "Sol Duc Trailhead",
+        "lat": 47.9583,
+        "lon": -123.8344
+      },
+      "bounding_box": {
+        "min_lat": 47.88,
+        "max_lat": 47.98,
+        "min_lon": -123.9,
+        "max_lon": -123.72
+      },
+      "water_crossings": [
+        {
+          "name": "Sol Duc River",
+          "lat": 47.9591,
+          "lon": -123.833
+        },
+        {
+          "name": "Hoh River",
+          "lat": 47.902,
+          "lon": -123.785
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Sol Duc River",
+          "type": "river",
+          "cumulative_miles": 0.5
+        },
+        {
+          "name": "Sol Duc Falls creek",
+          "type": "stream",
+          "cumulative_miles": 4.5
+        },
+        {
+          "name": "Sol Duc Park streams",
+          "type": "stream",
+          "cumulative_miles": 8.0
+        },
+        {
+          "name": "Heart Lake",
+          "type": "lake",
+          "cumulative_miles": 22.0
+        },
+        {
+          "name": "Hoh Lake",
+          "type": "lake",
+          "cumulative_miles": 28.0
+        },
+        {
+          "name": "Hoh River",
+          "type": "river",
+          "cumulative_miles": 34.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Sol Duc Trailhead",
+          "lat": 47.9583,
+          "lon": -123.8344,
+          "elevation_ft": 1680,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Sol Duc Park Camp",
+          "lat": 47.941,
+          "lon": -123.812,
+          "elevation_ft": 4800,
+          "cumulative_miles": 8.0
+        },
+        {
+          "name": "High Divide Ridge",
+          "lat": 47.925,
+          "lon": -123.798,
+          "elevation_ft": 5500,
+          "cumulative_miles": 14.5
+        },
+        {
+          "name": "Heart Lake Camp",
+          "lat": 47.91,
+          "lon": -123.776,
+          "elevation_ft": 4750,
+          "cumulative_miles": 22.0
+        },
+        {
+          "name": "Hoh Lake",
+          "lat": 47.905,
+          "lon": -123.77,
+          "elevation_ft": 4500,
+          "cumulative_miles": 28.0
+        },
+        {
+          "name": "Sol Duc Trailhead",
+          "lat": 47.9583,
+          "lon": -123.8344,
+          "elevation_ft": 1680,
+          "cumulative_miles": 44.0
+        }
+      ],
+      "description": "A demanding loop through the remote interior of Olympic National Park, crossing the High Divide ridge with sweeping views of the Bailey Range and glacier-capped peaks. The route descends through old-growth rainforest and the Hoh River valley, passing beneath towering Sitka spruce. Multiple river crossings, sustained elevation, and true wilderness solitude define this trip.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "advance",
+        "booking_system": "Recreation.gov",
+        "parking_pass": "National Park entrance fee",
+        "notes": "Backcountry permit required for overnight camping. Reserve in advance via Recreation.gov or self-issue remaining permits at trailhead kiosk (first-come-first-served). Olympic NP entrance fee required."
+      }
+    },
+    {
+      "id": "maple-pass-loop",
+      "name": "Maple Pass Loop",
+      "sub_region": "North Cascades",
+      "route_type": "loop",
+      "difficulty": "Moderate",
+      "total_miles": 7.2,
+      "elevation_gain_ft": 2000,
+      "season": [
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Rainy Pass Trailhead",
+        "lat": 48.5152,
+        "lon": -120.7358
+      },
+      "bounding_box": {
+        "min_lat": 48.5,
+        "max_lat": 48.54,
+        "min_lon": -120.76,
+        "max_lon": -120.71
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Lake Ann",
+          "type": "lake",
+          "cumulative_miles": 1.8
+        },
+        {
+          "name": "Maple Pass snowmelt streams (seasonal)",
+          "type": "stream",
+          "cumulative_miles": 3.5
+        },
+        {
+          "name": "Heather Pass tarns (seasonal)",
+          "type": "tarn",
+          "cumulative_miles": 5.5
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Rainy Pass Trailhead",
+          "lat": 48.5152,
+          "lon": -120.7358,
+          "elevation_ft": 4855,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Lake Ann",
+          "lat": 48.518,
+          "lon": -120.752,
+          "elevation_ft": 5475,
+          "cumulative_miles": 1.8
+        },
+        {
+          "name": "Maple Pass",
+          "lat": 48.521,
+          "lon": -120.761,
+          "elevation_ft": 6600,
+          "cumulative_miles": 3.8
+        },
+        {
+          "name": "Heather Pass",
+          "lat": 48.523,
+          "lon": -120.748,
+          "elevation_ft": 6080,
+          "cumulative_miles": 5.5
+        },
+        {
+          "name": "Rainy Pass Trailhead",
+          "lat": 48.5152,
+          "lon": -120.7358,
+          "elevation_ft": 4855,
+          "cumulative_miles": 7.2
+        }
+      ],
+      "description": "A compact loop that punches well above its mileage - climbing past Lake Ann to Maple Pass, then along the open ridge above Rainy Lake with constant North Cascades panoramas. In early October, the larch turn gold and this becomes one of the most photographed hikes in Washington. Short enough for a strong day hike, dramatic enough to leave a lasting impression.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No permit required. Northwest Forest Pass required for trailhead parking. No overnight camping on this route."
+      }
+    },
+    {
+      "id": "pasayten-wilderness",
+      "name": "Pasayten Wilderness - Boundary Trail",
+      "sub_region": "Eastern Cascades",
+      "route_type": "thru",
+      "difficulty": "Epic",
+      "total_miles": 65.0,
+      "elevation_gain_ft": 12000,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "Castle Pass Trailhead",
+        "lat": 48.991,
+        "lon": -120.698
+      },
+      "bounding_box": {
+        "min_lat": 48.85,
+        "max_lat": 49.0,
+        "min_lon": -120.8,
+        "max_lon": -119.9
+      },
+      "water_crossings": [
+        {
+          "name": "Pasayten River",
+          "lat": 48.912,
+          "lon": -120.284
+        },
+        {
+          "name": "Ashnola River",
+          "lat": 48.965,
+          "lon": -119.982
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Hopkins Lake",
+          "type": "lake",
+          "cumulative_miles": 10.0
+        },
+        {
+          "name": "Three Fools Creek",
+          "type": "stream",
+          "cumulative_miles": 17.0
+        },
+        {
+          "name": "Pasayten River",
+          "type": "river",
+          "cumulative_miles": 38.0
+        },
+        {
+          "name": "Horseshoe Basin springs",
+          "type": "spring",
+          "cumulative_miles": 52.0
+        },
+        {
+          "name": "Ashnola River",
+          "type": "river",
+          "cumulative_miles": 62.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Castle Pass Trailhead",
+          "lat": 48.991,
+          "lon": -120.698,
+          "elevation_ft": 5451,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Hopkins Lake Camp",
+          "lat": 48.975,
+          "lon": -120.582,
+          "elevation_ft": 6100,
+          "cumulative_miles": 10.0
+        },
+        {
+          "name": "Lakeview Ridge",
+          "lat": 48.948,
+          "lon": -120.421,
+          "elevation_ft": 7400,
+          "cumulative_miles": 24.0
+        },
+        {
+          "name": "Pasayten River Camp",
+          "lat": 48.912,
+          "lon": -120.284,
+          "elevation_ft": 3800,
+          "cumulative_miles": 38.0
+        },
+        {
+          "name": "Horseshoe Basin",
+          "lat": 48.956,
+          "lon": -120.112,
+          "elevation_ft": 6600,
+          "cumulative_miles": 52.0
+        },
+        {
+          "name": "Ashnola Trailhead",
+          "lat": 48.972,
+          "lon": -119.975,
+          "elevation_ft": 3200,
+          "cumulative_miles": 65.0
+        }
+      ],
+      "description": "A long, remote traverse through one of the wildest and least-visited corners of Washington. The Boundary Trail crosses dry ponderosa-pine ridges, wide-open meadows, and broad river valleys with the kind of solitude that has disappeared from most of the Cascades. Expect self-sufficiency, long water carries on eastern sections, and wildlife - including bear and wolf.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "self-issue",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No advance permit required. Self-register at the trailhead. Northwest Forest Pass required for parking."
+      }
+    },
+    {
+      "id": "rattlesnake-ledge",
+      "name": "Rattlesnake Ledge",
+      "sub_region": "Central Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Easy",
+      "total_miles": 4.0,
+      "elevation_gain_ft": 1100,
+      "season": [
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November"
+      ],
+      "trailhead": {
+        "name": "Rattlesnake Lake Trailhead",
+        "lat": 47.446,
+        "lon": -121.7953
+      },
+      "bounding_box": {
+        "min_lat": 47.42,
+        "max_lat": 47.46,
+        "min_lon": -121.81,
+        "max_lon": -121.76
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Rattlesnake Lake",
+          "type": "lake",
+          "cumulative_miles": 0.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Rattlesnake Lake Trailhead",
+          "lat": 47.446,
+          "lon": -121.7953,
+          "elevation_ft": 900,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Lower Rattlesnake Ledge",
+          "lat": 47.438,
+          "lon": -121.785,
+          "elevation_ft": 1550,
+          "cumulative_miles": 1.0
+        },
+        {
+          "name": "Rattlesnake Ledge Viewpoint",
+          "lat": 47.4306,
+          "lon": -121.7714,
+          "elevation_ft": 2078,
+          "cumulative_miles": 2.0
+        }
+      ],
+      "description": "The quintessential Issaquah Alps day hike - a steady climb through second-growth forest to a rocky sandstone ledge with a commanding view over Rattlesnake Lake, Chester Morse Lake, and the Cedar River watershed. A reliable year-round option when higher elevations are snowed in, and a classic first-hike destination for Seattle-area newcomers.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Discover Pass",
+        "notes": "No permit required. Discover Pass required for trailhead parking. Day hike only."
+      }
+    },
+    {
+      "id": "heather-lake",
+      "name": "Heather Lake",
+      "sub_region": "North Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Easy",
+      "total_miles": 4.4,
+      "elevation_gain_ft": 1200,
+      "season": [
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Heather Lake Trailhead",
+        "lat": 48.0829,
+        "lon": -121.774
+      },
+      "bounding_box": {
+        "min_lat": 48.06,
+        "max_lat": 48.09,
+        "min_lon": -121.79,
+        "max_lon": -121.75
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Lower trail creek",
+          "type": "stream",
+          "cumulative_miles": 0.8
+        },
+        {
+          "name": "Heather Lake",
+          "type": "lake",
+          "cumulative_miles": 2.2
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Heather Lake Trailhead",
+          "lat": 48.0829,
+          "lon": -121.774,
+          "elevation_ft": 1410,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Old-Growth Section",
+          "lat": 48.0762,
+          "lon": -121.768,
+          "elevation_ft": 1800,
+          "cumulative_miles": 0.7
+        },
+        {
+          "name": "Upper Trail Switchbacks",
+          "lat": 48.07,
+          "lon": -121.763,
+          "elevation_ft": 2100,
+          "cumulative_miles": 1.5
+        },
+        {
+          "name": "Heather Lake",
+          "lat": 48.0668,
+          "lon": -121.7584,
+          "elevation_ft": 2430,
+          "cumulative_miles": 2.2
+        }
+      ],
+      "description": "A jewel of a subalpine lake tucked into a cirque at the base of Mt. Pilchuck's cliffs, reached through some of the finest old-growth forest on the Mountain Loop Highway. The trail gains elevation steadily through cathedral Douglas fir and cedar before opening to heather slopes and the mirror-still lake. Snowfields linger around the cirque into summer.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No permit required. Northwest Forest Pass required for trailhead parking."
+      }
+    },
+    {
+      "id": "ozette-triangle",
+      "name": "Ozette Triangle",
+      "sub_region": "Olympics",
+      "route_type": "loop",
+      "difficulty": "Easy",
+      "total_miles": 9.0,
+      "elevation_gain_ft": 100,
+      "season": [
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Lake Ozette Ranger Station",
+        "lat": 48.1536,
+        "lon": -124.6679
+      },
+      "bounding_box": {
+        "min_lat": 48.12,
+        "max_lat": 48.18,
+        "min_lon": -124.74,
+        "max_lon": -124.66
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Lake Ozette",
+          "type": "lake",
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Freshwater seep near Cape Alava (seasonal, verify)",
+          "type": "spring",
+          "cumulative_miles": 3.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Lake Ozette Ranger Station",
+          "lat": 48.1536,
+          "lon": -124.6679,
+          "elevation_ft": 30,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Cape Alava (coast)",
+          "lat": 48.1651,
+          "lon": -124.73,
+          "elevation_ft": 20,
+          "cumulative_miles": 3.1
+        },
+        {
+          "name": "Wedding Rocks",
+          "lat": 48.145,
+          "lon": -124.724,
+          "elevation_ft": 20,
+          "cumulative_miles": 4.6
+        },
+        {
+          "name": "Sand Point (coast)",
+          "lat": 48.1255,
+          "lon": -124.708,
+          "elevation_ft": 20,
+          "cumulative_miles": 6.1
+        },
+        {
+          "name": "Lake Ozette Ranger Station",
+          "lat": 48.1536,
+          "lon": -124.6679,
+          "elevation_ft": 30,
+          "cumulative_miles": 9.0
+        }
+      ],
+      "description": "A coastal loop connecting two of the Olympic Peninsula's finest wilderness beaches - Cape Alava and Sand Point - through ancient old-growth forest. The beach sections traverse rocky intertidal zones rich with sea stars, otters, and shorebirds, and the cape holds Native American petroglyphs carved into offshore rocks. One of the few true coastal wilderness hikes in the contiguous US.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "advance",
+        "booking_system": "Recreation.gov",
+        "parking_pass": "National Park entrance fee",
+        "notes": "Backcountry camping permit required via Recreation.gov. Olympic NP entrance fee required. Some walk-up permits held at the Lake Ozette Ranger Station."
+      }
+    },
+    {
+      "id": "lake-22",
+      "name": "Lake 22",
+      "sub_region": "North Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Moderate",
+      "total_miles": 5.4,
+      "elevation_gain_ft": 1350,
+      "season": [
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Lake 22 Trailhead",
+        "lat": 48.0774,
+        "lon": -121.746
+      },
+      "bounding_box": {
+        "min_lat": 48.05,
+        "max_lat": 48.09,
+        "min_lon": -121.76,
+        "max_lon": -121.73
+      },
+      "water_crossings": [
+        {
+          "name": "Granite Creek",
+          "lat": 48.072,
+          "lon": -121.745
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Lower trail streams",
+          "type": "stream",
+          "cumulative_miles": 0.5
+        },
+        {
+          "name": "Granite Creek",
+          "type": "stream",
+          "cumulative_miles": 1.3
+        },
+        {
+          "name": "Lake 22",
+          "type": "lake",
+          "cumulative_miles": 2.7
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Lake 22 Trailhead",
+          "lat": 48.0774,
+          "lon": -121.746,
+          "elevation_ft": 1100,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Granite Creek Crossing",
+          "lat": 48.068,
+          "lon": -121.743,
+          "elevation_ft": 1600,
+          "cumulative_miles": 1.3
+        },
+        {
+          "name": "Upper Trail Switchbacks",
+          "lat": 48.059,
+          "lon": -121.744,
+          "elevation_ft": 2100,
+          "cumulative_miles": 2.2
+        },
+        {
+          "name": "Lake 22",
+          "lat": 48.052,
+          "lon": -121.7444,
+          "elevation_ft": 2400,
+          "cumulative_miles": 2.7
+        }
+      ],
+      "description": "A Research Natural Area protecting one of the most ecologically intact old-growth forests in the North Cascades, culminating at a dramatic subalpine lake beneath the sheer north face of Mt. Pilchuck. The trail passes multiple waterfalls and crosses streams fed by lingering snowfields above. The combination of ancient forest, cascading water, and a striking cirque lake makes this one of the region's best moderate hikes.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No permit required (day-use Research Natural Area). Northwest Forest Pass required for trailhead parking."
+      }
+    },
+    {
+      "id": "mount-si",
+      "name": "Mount Si",
+      "sub_region": "Central Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Moderate",
+      "total_miles": 8.0,
+      "elevation_gain_ft": 3150,
+      "season": [
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November"
+      ],
+      "trailhead": {
+        "name": "Mount Si Trailhead",
+        "lat": 47.4971,
+        "lon": -121.7319
+      },
+      "bounding_box": {
+        "min_lat": 47.47,
+        "max_lat": 47.51,
+        "min_lon": -121.74,
+        "max_lon": -121.72
+      },
+      "water_crossings": [],
+      "water_sources": [],
+      "waypoints": [
+        {
+          "name": "Mount Si Trailhead",
+          "lat": 47.4971,
+          "lon": -121.7319,
+          "elevation_ft": 780,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Little Si Junction",
+          "lat": 47.49,
+          "lon": -121.73,
+          "elevation_ft": 1400,
+          "cumulative_miles": 1.0
+        },
+        {
+          "name": "Snag Flat",
+          "lat": 47.485,
+          "lon": -121.7278,
+          "elevation_ft": 2400,
+          "cumulative_miles": 2.3
+        },
+        {
+          "name": "Haystack Basin",
+          "lat": 47.4832,
+          "lon": -121.726,
+          "elevation_ft": 3800,
+          "cumulative_miles": 3.6
+        },
+        {
+          "name": "Mount Si Summit",
+          "lat": 47.4823,
+          "lon": -121.7247,
+          "elevation_ft": 4167,
+          "cumulative_miles": 4.0
+        }
+      ],
+      "description": "The iconic training peak for Seattle-area hikers - a relentless 3,150-foot climb up forested switchbacks to a summit with views across the Snoqualmie Valley toward the Olympics and Puget Sound lowlands. The Haystack, a rocky scramble above the main summit, adds another 100 feet for those who want it. High traffic reflects how good it is; go early or on a weekday.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Discover Pass",
+        "notes": "No permit required. Discover Pass required for trailhead parking. Extremely high traffic - arrive early on weekends."
+      }
+    },
+    {
+      "id": "skyline-loop-rainier",
+      "name": "Skyline Loop Trail",
+      "sub_region": "Mt. Rainier",
+      "route_type": "loop",
+      "difficulty": "Moderate",
+      "total_miles": 6.2,
+      "elevation_gain_ft": 1900,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "Jackson Visitor Center (Paradise)",
+        "lat": 46.7861,
+        "lon": -121.7363
+      },
+      "bounding_box": {
+        "min_lat": 46.77,
+        "max_lat": 46.81,
+        "min_lon": -121.75,
+        "max_lon": -121.72
+      },
+      "water_crossings": [
+        {
+          "name": "Edith Creek",
+          "lat": 46.787,
+          "lon": -121.74
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Myrtle Falls creek",
+          "type": "stream",
+          "cumulative_miles": 0.6
+        },
+        {
+          "name": "Pebble Creek",
+          "type": "stream",
+          "cumulative_miles": 3.5
+        },
+        {
+          "name": "Edith Creek",
+          "type": "stream",
+          "cumulative_miles": 5.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Jackson Visitor Center (Paradise)",
+          "lat": 46.7861,
+          "lon": -121.7363,
+          "elevation_ft": 5400,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Myrtle Falls",
+          "lat": 46.7891,
+          "lon": -121.739,
+          "elevation_ft": 5650,
+          "cumulative_miles": 0.6
+        },
+        {
+          "name": "Golden Gate",
+          "lat": 46.793,
+          "lon": -121.738,
+          "elevation_ft": 6100,
+          "cumulative_miles": 1.4
+        },
+        {
+          "name": "Panorama Point",
+          "lat": 46.797,
+          "lon": -121.7369,
+          "elevation_ft": 6800,
+          "cumulative_miles": 2.0
+        },
+        {
+          "name": "Pebble Creek",
+          "lat": 46.7896,
+          "lon": -121.7279,
+          "elevation_ft": 5900,
+          "cumulative_miles": 3.5
+        },
+        {
+          "name": "Edith Creek Basin",
+          "lat": 46.7848,
+          "lon": -121.732,
+          "elevation_ft": 5500,
+          "cumulative_miles": 5.0
+        },
+        {
+          "name": "Jackson Visitor Center (Paradise)",
+          "lat": 46.7861,
+          "lon": -121.7363,
+          "elevation_ft": 5400,
+          "cumulative_miles": 6.2
+        }
+      ],
+      "description": "The crown of the Paradise trail network - a loop that climbs through the finest wildflower meadows on Rainier's south flank, past Panorama Point with its glaciated close-up of the Muir Snowfield, and along open ridges with constant views of the summit and the Tatoosh Range to the south. Snow covers sections of the trail into mid-July most years; check conditions before going.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "National Park entrance fee",
+        "notes": "No trail permit required for day hiking. Mt. Rainier NP entrance fee required ($30/vehicle). Nearby backcountry camping requires a separate wilderness permit."
+      }
+    },
+    {
+      "id": "sahale-arm",
+      "name": "Sahale Arm via Cascade Pass",
+      "sub_region": "North Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Hard",
+      "total_miles": 11.4,
+      "elevation_gain_ft": 5029,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "Cascade Pass Trailhead",
+        "lat": 48.4758,
+        "lon": -121.0611
+      },
+      "bounding_box": {
+        "min_lat": 48.47,
+        "max_lat": 48.51,
+        "min_lon": -121.1,
+        "max_lon": -121.04
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Cascade River tributary",
+          "type": "stream",
+          "cumulative_miles": 1.5
+        },
+        {
+          "name": "Cascade Pass snowmelt streams",
+          "type": "stream",
+          "cumulative_miles": 3.7
+        },
+        {
+          "name": "Sahale Glacier meltwater",
+          "type": "stream",
+          "cumulative_miles": 5.5
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Cascade Pass Trailhead",
+          "lat": 48.4758,
+          "lon": -121.0611,
+          "elevation_ft": 3600,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Cascade Pass",
+          "lat": 48.482,
+          "lon": -121.0745,
+          "elevation_ft": 5384,
+          "cumulative_miles": 3.7
+        },
+        {
+          "name": "Sahale Arm Lower",
+          "lat": 48.488,
+          "lon": -121.078,
+          "elevation_ft": 6200,
+          "cumulative_miles": 4.8
+        },
+        {
+          "name": "Sahale Arm High Camp",
+          "lat": 48.494,
+          "lon": -121.082,
+          "elevation_ft": 7600,
+          "cumulative_miles": 5.7
+        }
+      ],
+      "description": "One of the most dramatic day hikes in the North Cascades - a sustained climb past the wide glacial bowl of Cascade Pass and up the Sahale Arm to a moraine perch at the foot of the Sahale Glacier. Johannesburg Mountain's sheer north face dominates the view, with Eldorado, Forbidden, and Boston Peaks beyond. The final push to the arm is steep and exposed; the reward is among the best summit views in Washington.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "advance",
+        "booking_system": "Recreation.gov",
+        "parking_pass": "National Park entrance fee",
+        "notes": "Sahale Arm backcountry camping permit required via Recreation.gov. North Cascades NP entrance fee required. Day hiking to Cascade Pass requires no permit."
+      }
+    },
+    {
+      "id": "snoqualmie-lake",
+      "name": "Snoqualmie Lake via Taylor River",
+      "sub_region": "Central Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Hard",
+      "total_miles": 15.2,
+      "elevation_gain_ft": 2306,
+      "season": [
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Taylor River Trailhead",
+        "lat": 47.564,
+        "lon": -121.435
+      },
+      "bounding_box": {
+        "min_lat": 47.52,
+        "max_lat": 47.58,
+        "min_lon": -121.44,
+        "max_lon": -121.36
+      },
+      "water_crossings": [
+        {
+          "name": "Taylor River",
+          "lat": 47.56,
+          "lon": -121.428
+        },
+        {
+          "name": "Lake Dorothy Creek",
+          "lat": 47.538,
+          "lon": -121.402
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Taylor River",
+          "type": "river",
+          "cumulative_miles": 2.0
+        },
+        {
+          "name": "Otter Creek",
+          "type": "stream",
+          "cumulative_miles": 3.0
+        },
+        {
+          "name": "Lake Dorothy Creek",
+          "type": "stream",
+          "cumulative_miles": 5.0
+        },
+        {
+          "name": "Snoqualmie Lake",
+          "type": "lake",
+          "cumulative_miles": 7.6
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Taylor River Trailhead",
+          "lat": 47.564,
+          "lon": -121.435,
+          "elevation_ft": 1100,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Otter Falls",
+          "lat": 47.561,
+          "lon": -121.42,
+          "elevation_ft": 1300,
+          "cumulative_miles": 3.0
+        },
+        {
+          "name": "Quartz Creek Junction",
+          "lat": 47.548,
+          "lon": -121.402,
+          "elevation_ft": 1700,
+          "cumulative_miles": 5.0
+        },
+        {
+          "name": "Snoqualmie Lake",
+          "lat": 47.528,
+          "lon": -121.382,
+          "elevation_ft": 3147,
+          "cumulative_miles": 7.6
+        }
+      ],
+      "description": "A long, mellow approach through one of the most impressive old-growth corridors in the Central Cascades - the Taylor River valley, lined with ancient Douglas fir and punctuated by roadside waterfalls and log-jam swimming holes. The final miles gain elevation to a remote alpine lake at the foot of the Monte Cristo peaks. The distance filters crowds; those who make it find a quiet, wild lake worth every step.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No overnight permit required. Northwest Forest Pass required for trailhead parking."
+      }
+    },
+    {
+      "id": "wonderland-trail",
+      "name": "Wonderland Trail",
+      "sub_region": "Mt. Rainier",
+      "route_type": "loop",
+      "difficulty": "Epic",
+      "total_miles": 93.0,
+      "elevation_gain_ft": 22000,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "Longmire Visitor Center",
+        "lat": 46.7499,
+        "lon": -121.8144
+      },
+      "bounding_box": {
+        "min_lat": 46.69,
+        "max_lat": 46.97,
+        "min_lon": -122.01,
+        "max_lon": -121.54
+      },
+      "water_crossings": [
+        {
+          "name": "White River",
+          "lat": 46.902,
+          "lon": -121.644
+        },
+        {
+          "name": "Carbon River",
+          "lat": 46.91,
+          "lon": -121.917
+        },
+        {
+          "name": "Mowich River",
+          "lat": 46.875,
+          "lon": -121.88
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "Tahoma Creek",
+          "type": "stream",
+          "cumulative_miles": 6.0
+        },
+        {
+          "name": "Paradise area streams",
+          "type": "stream",
+          "cumulative_miles": 14.0
+        },
+        {
+          "name": "Panhandle Gap tarns",
+          "type": "tarn",
+          "cumulative_miles": 28.0
+        },
+        {
+          "name": "Summerland streams",
+          "type": "stream",
+          "cumulative_miles": 34.0
+        },
+        {
+          "name": "White River",
+          "type": "river",
+          "cumulative_miles": 46.0
+        },
+        {
+          "name": "Berkeley Park streams",
+          "type": "stream",
+          "cumulative_miles": 52.0
+        },
+        {
+          "name": "Carbon River",
+          "type": "river",
+          "cumulative_miles": 68.0
+        },
+        {
+          "name": "Mowich Lake",
+          "type": "lake",
+          "cumulative_miles": 75.0
+        },
+        {
+          "name": "North Puyallup River",
+          "type": "river",
+          "cumulative_miles": 82.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Longmire Visitor Center",
+          "lat": 46.7499,
+          "lon": -121.8144,
+          "elevation_ft": 2761,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Cougar Rock Campground",
+          "lat": 46.76,
+          "lon": -121.78,
+          "elevation_ft": 3180,
+          "cumulative_miles": 2.4
+        },
+        {
+          "name": "Paradise Area Junction",
+          "lat": 46.7861,
+          "lon": -121.7363,
+          "elevation_ft": 5400,
+          "cumulative_miles": 14.0
+        },
+        {
+          "name": "Summerland Camp",
+          "lat": 46.861,
+          "lon": -121.658,
+          "elevation_ft": 5900,
+          "cumulative_miles": 34.0
+        },
+        {
+          "name": "Sunrise Area",
+          "lat": 46.915,
+          "lon": -121.6439,
+          "elevation_ft": 6400,
+          "cumulative_miles": 46.0
+        },
+        {
+          "name": "Carbon River Valley",
+          "lat": 46.91,
+          "lon": -121.917,
+          "elevation_ft": 2300,
+          "cumulative_miles": 68.0
+        },
+        {
+          "name": "Mowich Lake",
+          "lat": 46.928,
+          "lon": -121.864,
+          "elevation_ft": 4929,
+          "cumulative_miles": 75.0
+        },
+        {
+          "name": "Longmire Visitor Center",
+          "lat": 46.7499,
+          "lon": -121.8144,
+          "elevation_ft": 2761,
+          "cumulative_miles": 93.0
+        }
+      ],
+      "description": "The complete circumnavigation of Mt. Rainier - 93 miles and roughly 22,000 feet of total elevation gain, crossing every major drainage on the mountain. The route alternates between glacier-fed river crossings, wildflower parklands at timberline, ancient forest in the valleys, and open ridgelines with constant views of the summit. A permit-required wilderness route and a bucket-list achievement for serious Pacific Northwest hikers.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "lottery",
+        "booking_system": "Recreation.gov",
+        "parking_pass": "National Park entrance fee",
+        "notes": "Wilderness permit required via Recreation.gov lottery (opens April, highly competitive). Specific campsites must be reserved. Mt. Rainier NP entrance fee required. A small number of walk-up permits available day-of at wilderness information centers."
+      }
+    },
+    {
+      "id": "glacier-peak-white-chuck",
+      "name": "Glacier Peak via White Chuck River",
+      "sub_region": "North Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Epic",
+      "total_miles": 34.0,
+      "elevation_gain_ft": 9000,
+      "season": [
+        "July",
+        "August",
+        "September"
+      ],
+      "trailhead": {
+        "name": "White Chuck River Trailhead",
+        "lat": 48.134,
+        "lon": -121.563
+      },
+      "bounding_box": {
+        "min_lat": 48.08,
+        "max_lat": 48.25,
+        "min_lon": -121.57,
+        "max_lon": -121.09
+      },
+      "water_crossings": [
+        {
+          "name": "White Chuck River",
+          "lat": 48.138,
+          "lon": -121.548
+        },
+        {
+          "name": "Kennedy Creek",
+          "lat": 48.176,
+          "lon": -121.43
+        }
+      ],
+      "water_sources": [
+        {
+          "name": "White Chuck River",
+          "type": "river",
+          "cumulative_miles": 2.5
+        },
+        {
+          "name": "Kennedy Hot Springs",
+          "type": "spring",
+          "cumulative_miles": 5.5
+        },
+        {
+          "name": "Kennedy Creek",
+          "type": "stream",
+          "cumulative_miles": 12.0
+        },
+        {
+          "name": "Glacial meltwater streams",
+          "type": "stream",
+          "cumulative_miles": 14.5
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "White Chuck River Trailhead",
+          "lat": 48.134,
+          "lon": -121.563,
+          "elevation_ft": 2300,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Kennedy Hot Springs",
+          "lat": 48.174,
+          "lon": -121.436,
+          "elevation_ft": 3300,
+          "cumulative_miles": 5.5
+        },
+        {
+          "name": "Kennedy Ridge Camp",
+          "lat": 48.182,
+          "lon": -121.41,
+          "elevation_ft": 6000,
+          "cumulative_miles": 12.0
+        },
+        {
+          "name": "Glacier Peak Summit",
+          "lat": 48.1124,
+          "lon": -121.1133,
+          "elevation_ft": 10541,
+          "cumulative_miles": 17.0
+        }
+      ],
+      "description": "A deep wilderness approach to the most remote of Washington's volcanoes, following the White Chuck River through miles of old-growth forest before climbing steeply to meadows and glacial moraines below Glacier Peak. The White Chuck corridor was devastated by a 2003 flood and has recovered unevenly - expect route-finding challenges in the lower valley. The reward is genuine North Cascades wilderness and a volcano largely to yourself.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "self-issue",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No advance permit required. Self-register at the trailhead. Northwest Forest Pass required for parking."
+      }
+    },
+    {
+      "id": "adhoc-mailbox-peak",
+      "name": "Mailbox Peak Trail",
+      "sub_region": "Central Cascades",
+      "difficulty": "Hard",
+      "route_type": "out-and-back",
+      "total_miles": 9.4,
+      "elevation_gain_ft": 4000,
+      "description": "Mailbox Peak is one of the most brutally steep day hikes in the Central Cascades, gaining 4,000 feet in under 5 miles on the new trail. The summit rewards hikers with panoramic views of the Middle Fork Snoqualmie Valley, Mount Rainier, and the Stuart Range, and is famously marked by an actual mailbox at the top. The new trail (opened 2013) offers a more sustained switchbacking route, while the old trail provides a punishing direct line for the experienced.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "No permit required to hike Mailbox Peak. A Northwest Forest Pass or equivalent Interagency Pass is required for parking at the trailhead."
+      }
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:api.weather.gov)",
+      "WebFetch(domain:docs.airnowapi.org)",
+      "WebFetch(domain:api.waterdata.usgs.gov)",
+      "WebFetch(domain:data-nifc.opendata.arcgis.com)",
+      "WebFetch(domain:www.weather.gov)",
+      "WebFetch(domain:services3.arcgis.com)",
+      "WebFetch(domain:services9.arcgis.com)",
+      "WebFetch(domain:www.alltrails.com)",
+      "WebFetch(domain:www.wta.org)",
+      "WebFetch(domain:data.ridewta.com)",
+      "WebFetch(domain:publiclands.alltrails.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:overpass-api.de)",
+      "WebFetch(domain:api.open-elevation.com)",
+      "WebFetch(domain:open-elevation.com)",
+      "WebFetch(domain:www.freepublicapis.com)",
+      "WebFetch(domain:wiki.openstreetmap.org)",
+      "WebFetch(domain:dev.overpass-api.de)",
+      "WebFetch(domain:www.rei.com)",
+      "WebFetch(domain:www.thetrekkingmama.com)",
+      "Bash(echo $ANTHROPIC_API_KEY)",
+      "Bash(pip show streamlit)",
+      "Bash(pip --version)",
+      "Bash(where python)",
+      "Bash(where streamlit)",
+      "Read(//c/Program Files/WindowsApps/PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0/**)",
+      "Bash(ls c:/Users/b_mcg/Documents/Projects/outdoor-route-finder/*.py)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\b_mcg\\.claude\\projects\\c--Users-b-mcg-Documents-Projects-outdoor-route-finder\\memory"
+    ]
+  }
+}

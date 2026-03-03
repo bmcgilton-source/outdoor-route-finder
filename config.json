@@ -1,0 +1,108 @@
+{
+  "apis": {
+    "nws": {
+      "base_url": "https://api.weather.gov",
+      "endpoints": {
+        "points": "/points/{latitude},{longitude}",
+        "forecast": "/gridpoints/{office}/{gridX},{gridY}/forecast",
+        "forecast_hourly": "/gridpoints/{office}/{gridX},{gridY}/forecast/hourly",
+        "alerts": "/alerts/active?area={state}"
+      },
+      "auth": {
+        "type": "none",
+        "headers": {
+          "User-Agent": "TrailOps/1.0 (your-email@example.com)"
+        }
+      },
+      "notes": "No API key required. User-Agent header is required."
+    },
+    "airnow": {
+      "base_url": "https://www.airnowapi.org",
+      "endpoints": {
+        "current_by_zip": "/aq/observation/zipCode/current/?format=application/json&zipCode={zip}&distance={distance}&API_KEY={api_key}",
+        "current_by_latlon": "/aq/observation/latLong/current/?format=application/json&latitude={latitude}&longitude={longitude}&distance={distance}&API_KEY={api_key}",
+        "forecast_by_zip": "/aq/forecast/zipCode/?format=application/json&zipCode={zip}&date={date}&distance={distance}&API_KEY={api_key}",
+        "forecast_by_latlon": "/aq/forecast/latLong/?format=application/json&latitude={latitude}&longitude={longitude}&date={date}&distance={distance}&API_KEY={api_key}"
+      },
+      "auth": {
+        "type": "api_key",
+        "param": "API_KEY",
+        "env_var": "AIRNOW_API_KEY"
+      },
+      "rate_limit": "500 requests/hour",
+      "notes": "Free registration required at https://docs.airnowapi.org/account/request/"
+    },
+    "usgs": {
+      "base_url": "https://api.waterdata.usgs.gov/ogcapi/v0",
+      "endpoints": {
+        "latest_streamflow": "/collections/latest-continuous/items?monitoringLocationNumber={site_id}",
+        "daily_values": "/collections/daily/items?monitoringLocationNumber={site_id}",
+        "monitoring_locations": "/collections/monitoring-locations/items?stateCd={state}",
+        "water_quality": "/collections/observations/items?monitoringLocationNumber={site_id}"
+      },
+      "auth": {
+        "type": "optional_api_key",
+        "header": "X-Api-Key",
+        "env_var": "USGS_API_KEY"
+      },
+      "notes": "No key required but free key improves rate limits. Register at https://api.waterdata.usgs.gov/signup/. Legacy waterservices.usgs.gov retiring early 2027."
+    },
+    "nifc": {
+      "base_url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services",
+      "endpoints": {
+        "current_perimeters": "/Current_WildlandFire_Perimeters/FeatureServer/0/query",
+        "public_perimeters": "/Public_Wildfire_Perimeters_View/FeatureServer/0/query",
+        "perimeters_ytd": "/WFIGS_Interagency_Perimeters_Current/FeatureServer/0/query"
+      },
+      "default_query_params": {
+        "where": "1=1",
+        "outFields": "IncidentName,GISAcres,CreateDate,PerimeterCategory",
+        "f": "geojson"
+      },
+      "auth": {
+        "type": "none"
+      },
+      "notes": "Public datasets only. Full NIFS requires a NIFC ArcGIS Online account."
+    }
+  },
+  "route_data": {
+    "overpass": {
+      "base_url": "https://overpass-api.de/api/interpreter",
+      "method": "POST",
+      "mirrors": [
+        "https://overpass.kumi.systems/api/interpreter",
+        "https://overpass.private.coffee/api/interpreter",
+        "https://api.openstreetmap.fr/oapi/interpreter"
+      ],
+      "example_query": "[out:json][timeout:60];\narea[\"name\"=\"Washington\"][\"admin_level\"=\"4\"]->.wa;\nrelation\n  [\"type\"=\"route\"]\n  [\"route\"=\"hiking\"]\n  [\"name\"~\"{trail_name}\",i]\n  (area.wa);\nout geom;",
+      "auth": {
+        "type": "none"
+      },
+      "license": "ODbL — must credit OpenStreetMap contributors",
+      "notes": "Returns trail geometry (lat/lon arrays). No API key required. Use POST for queries."
+    },
+    "open_topo_data": {
+      "base_url": "https://api.opentopodata.org/v1/ned10m",
+      "method": "GET",
+      "endpoints": {
+        "lookup": "?locations={lat},{lon}|{lat},{lon}|..."
+      },
+      "auth": {
+        "type": "none"
+      },
+      "rate_limit": "100 locations/request, 1000 calls/day",
+      "notes": "USGS National Elevation Dataset at 10m resolution. Better than SRTM for Washington State. Returns elevation in meters."
+    }
+  },
+  "claude": {
+    "model": "claude-sonnet-4-6",
+    "haiku_model": "claude-haiku-4-5-20251001",
+    "max_tokens": 4096
+  },
+  "thresholds": {
+    "aqi_acceptable": 150,
+    "risk_trigger": null,
+    "miles_per_day_target": [12, 16],
+    "forecast_horizon_days": 7
+  }
+}

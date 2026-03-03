@@ -1,0 +1,107 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting streamlit
+  Downloading streamlit-1.54.0-py3-none-any.whl.metadata (9.8 kB)
+Collecting altair!=5.4.0,!=5.4.1,<7,>=4.0 (from streamlit)
+  Downloading altair-6.0.0-py3-none-any.whl.metadata (11 kB)
+Collecting blinker<2,>=1.5.0 (from streamlit)
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting cachetools<7,>=5.5 (from streamlit)
+  Downloading cachetools-6.2.6-py3-none-any.whl.metadata (5.6 kB)
+Requirement already satisfied: click<9,>=7.0 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from streamlit) (8.3.1)
+Collecting gitpython!=3.1.19,<4,>=3.0.7 (from streamlit)
+  Downloading gitpython-3.1.46-py3-none-any.whl.metadata (13 kB)
+Collecting numpy<3,>=1.23 (from streamlit)
+  Downloading numpy-2.4.2-cp312-cp312-win_amd64.whl.metadata (6.6 kB)
+Collecting packaging>=20 (from streamlit)
+  Downloading packaging-26.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pandas<3,>=1.4.0 (from streamlit)
+  Downloading pandas-2.3.3-cp312-cp312-win_amd64.whl.metadata (19 kB)
+Collecting pillow<13,>=7.1.0 (from streamlit)
+  Downloading pillow-12.1.1-cp312-cp312-win_amd64.whl.metadata (9.0 kB)
+Collecting pydeck<1,>=0.8.0b4 (from streamlit)
+  Downloading pydeck-0.9.1-py2.py3-none-any.whl.metadata (4.1 kB)
+Collecting protobuf<7,>=3.20 (from streamlit)
+  Downloading protobuf-6.33.5-cp310-abi3-win_amd64.whl.metadata (593 bytes)
+Collecting pyarrow>=7.0 (from streamlit)
+  Downloading pyarrow-23.0.1-cp312-cp312-win_amd64.whl.metadata (3.1 kB)
+Requirement already satisfied: requests<3,>=2.27 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from streamlit) (2.32.5)
+Collecting tenacity<10,>=8.1.0 (from streamlit)
+  Downloading tenacity-9.1.4-py3-none-any.whl.metadata (1.2 kB)
+Collecting toml<2,>=0.10.1 (from streamlit)
+  Downloading toml-0.10.2-py2.py3-none-any.whl.metadata (7.1 kB)
+Collecting tornado!=6.5.0,<7,>=6.0.3 (from streamlit)
+  Downloading tornado-6.5.4-cp39-abi3-win_amd64.whl.metadata (2.9 kB)
+Requirement already satisfied: typing-extensions<5,>=4.10.0 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from streamlit) (4.15.0)
+Collecting watchdog<7,>=2.1.5 (from streamlit)
+  Downloading watchdog-6.0.0-py3-none-win_amd64.whl.metadata (44 kB)
+Collecting jinja2 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit)
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Requirement already satisfied: jsonschema>=3.0 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (4.26.0)
+Collecting narwhals>=1.27.1 (from altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit)
+  Downloading narwhals-2.17.0-py3-none-any.whl.metadata (14 kB)
+Requirement already satisfied: colorama in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from click<9,>=7.0->streamlit) (0.4.6)
+Collecting gitdb<5,>=4.0.1 (from gitpython!=3.1.19,<4,>=3.0.7->streamlit)
+  Downloading gitdb-4.0.12-py3-none-any.whl.metadata (1.2 kB)
+Collecting python-dateutil>=2.8.2 (from pandas<3,>=1.4.0->streamlit)
+  Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting pytz>=2020.1 (from pandas<3,>=1.4.0->streamlit)
+  Downloading pytz-2025.2-py2.py3-none-any.whl.metadata (22 kB)
+Collecting tzdata>=2022.7 (from pandas<3,>=1.4.0->streamlit)
+  Downloading tzdata-2025.3-py2.py3-none-any.whl.metadata (1.4 kB)
+Requirement already satisfied: charset_normalizer<4,>=2 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from requests<3,>=2.27->streamlit) (3.4.4)
+Requirement already satisfied: idna<4,>=2.5 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from requests<3,>=2.27->streamlit) (3.11)
+Requirement already satisfied: urllib3<3,>=1.21.1 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from requests<3,>=2.27->streamlit) (2.6.3)
+Requirement already satisfied: certifi>=2017.4.17 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from requests<3,>=2.27->streamlit) (2026.1.4)
+Collecting smmap<6,>=3.0.1 (from gitdb<5,>=4.0.1->gitpython!=3.1.19,<4,>=3.0.7->streamlit)
+  Downloading smmap-5.0.2-py3-none-any.whl.metadata (4.3 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit)
+  Downloading markupsafe-3.0.3-cp312-cp312-win_amd64.whl.metadata (2.8 kB)
+Requirement already satisfied: attrs>=22.2.0 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (25.4.0)
+Requirement already satisfied: jsonschema-specifications>=2023.03.6 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (2025.9.1)
+Requirement already satisfied: referencing>=0.28.4 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (0.37.0)
+Requirement already satisfied: rpds-py>=0.25.0 in c:\users\b_mcg\appdata\local\packages\pythonsoftwarefoundation.python.3.12_qbz5n2kfra8p0\localcache\local-packages\python312\site-packages (from jsonschema>=3.0->altair!=5.4.0,!=5.4.1,<7,>=4.0->streamlit) (0.30.0)
+Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas<3,>=1.4.0->streamlit)
+  Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Downloading streamlit-1.54.0-py3-none-any.whl (9.1 MB)
+   ---------------------------------------- 9.1/9.1 MB 28.4 MB/s eta 0:00:00
+Downloading altair-6.0.0-py3-none-any.whl (795 kB)
+   --------------------------------------- 795.4/795.4 kB 11.3 MB/s eta 0:00:00
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading cachetools-6.2.6-py3-none-any.whl (11 kB)
+Downloading gitpython-3.1.46-py3-none-any.whl (208 kB)
+Downloading numpy-2.4.2-cp312-cp312-win_amd64.whl (12.3 MB)
+   ---------------------------------------- 12.3/12.3 MB 36.7 MB/s eta 0:00:00
+Downloading packaging-26.0-py3-none-any.whl (74 kB)
+Downloading pandas-2.3.3-cp312-cp312-win_amd64.whl (11.0 MB)
+   ---------------------------------------- 11.0/11.0 MB 36.1 MB/s eta 0:00:00
+Downloading pillow-12.1.1-cp312-cp312-win_amd64.whl (7.0 MB)
+   ---------------------------------------- 7.0/7.0 MB 36.0 MB/s eta 0:00:00
+Downloading protobuf-6.33.5-cp310-abi3-win_amd64.whl (437 kB)
+Downloading pyarrow-23.0.1-cp312-cp312-win_amd64.whl (27.6 MB)
+   ---------------------------------------- 27.6/27.6 MB 38.1 MB/s eta 0:00:00
+Downloading pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)
+   ---------------------------------------- 6.9/6.9 MB 35.5 MB/s eta 0:00:00
+Downloading tenacity-9.1.4-py3-none-any.whl (28 kB)
+Downloading toml-0.10.2-py2.py3-none-any.whl (16 kB)
+Downloading tornado-6.5.4-cp39-abi3-win_amd64.whl (446 kB)
+Downloading watchdog-6.0.0-py3-none-win_amd64.whl (79 kB)
+Downloading gitdb-4.0.12-py3-none-any.whl (62 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading narwhals-2.17.0-py3-none-any.whl (444 kB)
+Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Downloading pytz-2025.2-py2.py3-none-any.whl (509 kB)
+Downloading tzdata-2025.3-py2.py3-none-any.whl (348 kB)
+Downloading markupsafe-3.0.3-cp312-cp312-win_amd64.whl (15 kB)
+Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Downloading smmap-5.0.2-py3-none-any.whl (24 kB)
+Installing collected packages: pytz, watchdog, tzdata, tornado, toml, tenacity, smmap, six, pyarrow, protobuf, pillow, packaging, numpy, narwhals, MarkupSafe, cachetools, blinker, python-dateutil, jinja2, gitdb, pydeck, pandas, gitpython, altair, streamlit
+  WARNING: The script watchmedo.exe is installed in 'C:\Users\b_mcg\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The scripts f2py.exe and numpy-config.exe are installed in 'C:\Users\b_mcg\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+  WARNING: The script streamlit.exe is installed in 'C:\Users\b_mcg\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed MarkupSafe-3.0.3 altair-6.0.0 blinker-1.9.0 cachetools-6.2.6 gitdb-4.0.12 gitpython-3.1.46 jinja2-3.1.6 narwhals-2.17.0 numpy-2.4.2 packaging-26.0 pandas-2.3.3 pillow-12.1.1 protobuf-6.33.5 pyarrow-23.0.1 pydeck-0.9.1 python-dateutil-2.9.0.post0 pytz-2025.2 six-1.17.0 smmap-5.0.2 streamlit-1.54.0 tenacity-9.1.4 toml-0.10.2 tornado-6.5.4 tzdata-2025.3 watchdog-6.0.0
+
+[notice] A new release of pip is available: 25.0.1 -> 26.0.1
+[notice] To update, run: C:\Users\b_mcg\AppData\Local\Microsoft\WindowsApps\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\python.exe -m pip install --upgrade pip

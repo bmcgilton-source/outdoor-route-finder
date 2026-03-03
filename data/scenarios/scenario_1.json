@@ -1,0 +1,9 @@
+{
+  "_description": "Scenario 1 — Goat Rocks Snowgrass Flat. Clean conditions, no replanning. Straight through the pipeline.",
+  "_mock_scenario": 1,
+  "dates": { "start": "2026-07-18", "end": "2026-07-19" },
+  "difficulty": "Hard",
+  "trip_length_days": 2,
+  "route_type": "loop",
+  "sub_region": "South Cascades"
+}
