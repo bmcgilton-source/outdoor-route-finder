@@ -23,7 +23,7 @@ _SUBREDDITS = ["Cascades", "PNWhiking", "WTA", "hiking"]
 def get_community_reports(trail_name: str, region: str = "") -> dict:
     """Return recent Reddit trip reports mentioning the trail or route."""
     if use_mock():
-        return _mock_reports()
+        return _mock_reports(trail_name, region)
     try:
         return _live_reports(trail_name, region)
     except Exception as e:
@@ -103,8 +103,18 @@ def _build_notes(posts: list) -> str:
     )
 
 
-def _mock_reports() -> dict:
-    scenario = mock_scenario()
+def _mock_reports(trail_name: str = "", region: str = "") -> dict:
+    # Match posts to the actual route name first so the mock stays coherent
+    # regardless of which MOCK_SCENARIO number is active.
+    name_lower = trail_name.lower()
+    if "enchantment" in name_lower:
+        scenario = 2
+    elif any(k in name_lower for k in ("olympic", "high divide", "hoh")):
+        scenario = 3
+    elif any(k in name_lower for k in ("goat rock", "snowgrass")):
+        scenario = 1
+    else:
+        scenario = mock_scenario()  # fallback to env var for other routes
 
     if scenario == 1:
         # Goat Rocks — clear conditions, positive reports
