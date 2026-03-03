@@ -28,6 +28,7 @@ from tools.base import CONFIG
 from tools.inaturalist import get_wildlife
 from tools.nifc import get_fire_data
 from tools.nws import get_weather
+from tools.reddit import get_community_reports
 from tools.tool_definitions import INTELLIGENCE_TOOLS
 from tools.usgs import get_streamflow
 
@@ -40,11 +41,12 @@ _MAX_TOKENS  = CONFIG["claude"]["max_tokens"]
 _HORIZON_DAYS = CONFIG["thresholds"]["forecast_horizon_days"]
 
 _TOOL_MAP = {
-    "get_weather": get_weather,
-    "get_air_quality": get_air_quality,
-    "get_fire_data": get_fire_data,
-    "get_streamflow": get_streamflow,
-    "get_wildlife": get_wildlife,
+    "get_weather":            get_weather,
+    "get_air_quality":        get_air_quality,
+    "get_fire_data":          get_fire_data,
+    "get_streamflow":         get_streamflow,
+    "get_wildlife":           get_wildlife,
+    "get_community_reports":  get_community_reports,
 }
 
 _HISTORICAL_SYSTEM = """\
@@ -85,6 +87,12 @@ Return ONLY a valid JSON object with exactly this structure:
       }
     ]
   },
+  "community_reports": {
+    "posts": [],
+    "post_count": 0,
+    "source": "community_reports",
+    "notes": "Community trip reports are not available for trips more than 7 days out."
+  },
   "synthesis_notes": "<2-3 plain sentences summarising typical conditions for this route in this month. State clearly that this is based on historical averages and that the user should check current forecasts closer to their trip date.>"
 }
 
@@ -98,21 +106,22 @@ Rules:
 _SYSTEM = """\
 You are the Intelligence Agent for TrailOps, an outdoor route planning system for the Pacific Northwest.
 
-Your role: gather ALL environmental conditions for a hiking route by calling all five tools, then \
+Your role: gather ALL environmental conditions for a hiking route by calling all six tools, then \
 synthesize the results into a structured JSON conditions object.
 
 Steps:
-1. Call get_weather, get_air_quality, get_fire_data, get_streamflow, and get_wildlife.
-   Call all five simultaneously — do not wait for one before calling the next.
+1. Call get_weather, get_air_quality, get_fire_data, get_streamflow, get_wildlife, and \
+get_community_reports. Call all six simultaneously — do not wait for one before calling the next.
 2. After all results are returned, synthesize them into a single JSON response.
 
 Your final response MUST be valid JSON with exactly this structure:
 {
-  "weather":  { <full get_weather response> },
-  "aqi":      { <full get_air_quality response> },
-  "fire":     { <full get_fire_data response> },
-  "water":    { <full get_streamflow response> },
-  "wildlife": { <full get_wildlife response> },
+  "weather":             { <full get_weather response> },
+  "aqi":                 { <full get_air_quality response> },
+  "fire":                { <full get_fire_data response> },
+  "water":               { <full get_streamflow response> },
+  "wildlife":            { <full get_wildlife response> },
+  "community_reports":   { <full get_community_reports response> },
   "synthesis_notes": "<2-3 plain sentences summarising key conditions>"
 }
 
@@ -122,8 +131,10 @@ Rules:
 - synthesis_notes must be plain prose only: no JSON, no code blocks, no markdown, no backticks.
   Flag the single highest-risk factor first, then note anything else actionable.
   Mention wildlife if risk_level is medium or high.
+  If community_reports has posts, briefly note whether they confirm or contradict official data.
+  Always label community reports as unverified.
   Example: "Weather looks clear for both days with no alerts. AQI is Good. One river crossing
-  is at moderate flow — confirm conditions day-of. One bear sighting reported near camp."
+  is at moderate flow — confirm conditions day-of. Community reports (unverified) mention high water."
 - Do not include any text outside the JSON object. Output the JSON immediately with no preamble.
 """
 
@@ -276,11 +287,12 @@ def _get_historical_conditions(route: dict, dates: dict) -> dict:
         return conditions
     except Exception as exc:
         return {
-            "weather":  {"source": "historical_average"},
-            "aqi":      {"source": "historical_average"},
-            "fire":     {"source": "historical_average"},
-            "water":    {"source": "historical_average", "crossings": []},
-            "wildlife": {"source": "historical_average"},
+            "weather":           {"source": "historical_average"},
+            "aqi":               {"source": "historical_average"},
+            "fire":              {"source": "historical_average"},
+            "water":             {"source": "historical_average", "crossings": []},
+            "wildlife":          {"source": "historical_average"},
+            "community_reports": {"posts": [], "post_count": 0, "source": "community_reports"},
             "synthesis_notes": (
                 "Your trip is more than a week out, so live forecasts aren't available yet. "
                 "Check back closer to your departure date for current conditions."
@@ -299,12 +311,15 @@ def _build_user_message(route: dict, dates: dict) -> str:
     return (
         f"Gather conditions for this hiking trip:\n\n"
         f"Route: {route['name']}\n"
+        f"Sub-region: {route.get('sub_region', 'Pacific Northwest')}\n"
         f"Trailhead: {trailhead['lat']}, {trailhead['lon']}\n"
         f"Bounding box: min_lat={bb['min_lat']}, max_lat={bb['max_lat']}, "
         f"min_lon={bb['min_lon']}, max_lon={bb['max_lon']}\n"
         f"Water crossings: {json.dumps(crossings)}\n"
         f"Trip dates: {dates['start']} to {dates['end']}\n\n"
-        "Call all five tools now."
+        f"For get_community_reports, use trail_name=\"{route['name']}\" "
+        f"and region=\"{route.get('sub_region', '')}\". "
+        "Call all six tools now."
     )
 
 
@@ -371,11 +386,12 @@ def _parse_json(raw: str) -> dict:
             pass
     # Return the raw text in synthesis_notes so nothing is silently lost
     return {
-        "weather":  {},
-        "aqi":      {},
-        "fire":     {},
-        "water":    {},
-        "wildlife": {},
-        "synthesis_notes": raw,
-        "_parse_error": True,
+        "weather":           {},
+        "aqi":               {},
+        "fire":              {},
+        "water":             {},
+        "wildlife":          {},
+        "community_reports": {},
+        "synthesis_notes":   raw,
+        "_parse_error":      True,
     }

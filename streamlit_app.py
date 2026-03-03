@@ -438,12 +438,13 @@ def _show_brief() -> None:
         return
 
     # ── Normal brief (ok or plan_b) ───────────────────────────────────────────
-    route      = brief.get("route", {})
-    risk       = brief.get("risk", {})
-    itinerary  = brief.get("itinerary", {})
-    conditions = brief.get("conditions", {})
-    gear_list  = brief.get("gear", [])
-    gear_notes = brief.get("gear_notes", "")
+    route             = brief.get("route", {})
+    risk              = brief.get("risk", {})
+    itinerary         = brief.get("itinerary", {})
+    conditions        = brief.get("conditions", {})
+    community_reports = conditions.get("community_reports", {})
+    gear_list         = brief.get("gear", [])
+    gear_notes        = brief.get("gear_notes", "")
 
     overall_risk              = risk.get("overall_risk", "low")
     dominant                  = risk.get("dominant_factor")
@@ -773,6 +774,30 @@ def _show_brief() -> None:
             if ch.get("summary"):
                 st.caption(ch["summary"])
 
+    # ── Community Reports ─────────────────────────────────────────────────────
+    cr_posts = community_reports.get("posts", [])
+    if cr_posts:
+        with st.expander(f"Community Reports  ({len(cr_posts)} recent)", expanded=False):
+            st.caption(
+                "Unverified community trip reports from Reddit. "
+                "Cross-reference with official conditions above."
+            )
+            for post in cr_posts:
+                st.markdown(
+                    f"**{post.get('title', '')}**  \n"
+                    f"<span style='color:#888;font-size:0.85em'>"
+                    f"{post.get('subreddit', '')} &nbsp;·&nbsp; {post.get('date', '')}"
+                    f"</span>",
+                    unsafe_allow_html=True,
+                )
+                snippet = post.get("snippet", "")
+                if snippet:
+                    st.write(snippet)
+                url = post.get("url", "")
+                if url and not community_reports.get("_mock"):
+                    st.markdown(f"[View post]({url})")
+                st.divider()
+
     # ── Itinerary ─────────────────────────────────────────────────────────────
     # Use Plan B itinerary if available, otherwise use original
     if status == "plan_b" and brief.get("plan_b", {}).get("itinerary"):
@@ -858,6 +883,8 @@ def _show_brief() -> None:
         with col1:
             if st.button("Change dates", use_container_width=True):
                 st.session_state.brief = None
+                st.session_state.intake_messages = []
+                st.session_state.intake_system = None
                 st.session_state.screen = "intake"
                 st.session_state.user_input = {
                     k: v for k, v in st.session_state.get("user_input", {}).items()
@@ -959,6 +986,8 @@ def _show_brief() -> None:
             st.session_state.qa_pending_action = None
             if _pending == "change_dates":
                 st.session_state.brief = None
+                st.session_state.intake_messages = []
+                st.session_state.intake_system = None
                 st.session_state.screen = "intake"
                 st.session_state.user_input = {
                     k: v for k, v in st.session_state.get("user_input", {}).items()

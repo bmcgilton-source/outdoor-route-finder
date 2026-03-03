@@ -158,5 +158,28 @@ INTELLIGENCE_TOOLS = [
             },
             "required": ["crossings"]
         }
+    },
+    {
+        "name": "get_community_reports",
+        "description": (
+            "Search recent Reddit posts for community trip reports mentioning a specific trail or route. "
+            "Returns post titles, dates, subreddits, and key condition snippets from the last 14 days. "
+            "Source is unverified community data — always label it as such in your output. "
+            "Call this with the trail or route name as the primary search term."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "trail_name": {
+                    "type": "string",
+                    "description": "Name of the trail or route to search for (e.g. 'Snowgrass Flat', 'Enchantments Traverse', 'Olympic High Divide')"
+                },
+                "region": {
+                    "type": "string",
+                    "description": "Optional sub-region to refine the search (e.g. 'Goat Rocks', 'Central Cascades', 'Olympics')"
+                }
+            },
+            "required": ["trail_name"]
+        }
     }
 ]
