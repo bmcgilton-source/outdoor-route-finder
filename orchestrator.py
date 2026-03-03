@@ -544,6 +544,7 @@ def _assemble_brief(trip_context: dict) -> dict:
             },
             "itinerary": itinerary,
             "conditions": {
+                "summary":          conditions.get("synthesis_notes", ""),
                 "_historical":      conditions.get("_historical", False),
                 "weather":          conditions.get("weather", {}),
                 "aqi":              conditions.get("aqi", {}),

@@ -576,6 +576,11 @@ def _show_brief() -> None:
         html = "".join(blocks)
         if html:
             st.markdown(html, unsafe_allow_html=True)
+
+        # Conditions summary — route-specific explanation of why conditions are problematic
+        nvr_summary = conditions.get("summary", "")
+        if nvr_summary:
+            st.info(nvr_summary, icon="ℹ")
     else:
         dominant_str = f"  ·  Main concern: {dominant}" if dominant else ""
         st.markdown(
@@ -740,11 +745,12 @@ def _show_brief() -> None:
             elif w_risk == "low":
                 st.markdown("- **Wildlife:** No bear or cougar sightings in last 30 days")
 
-            # Fallback if all live sections are empty
-            if not any([w_days, a_days, fire_risk, crossings]):
-                notes = conditions.get("synthesis_notes") or conditions.get("summary", "")
-                if notes:
-                    st.write(notes)
+            # Conditions summary — always shown; explains what the data means for this route
+            notes = conditions.get("summary") or conditions.get("synthesis_notes", "")
+            if notes:
+                st.caption(notes)
+            elif not any([w_days, a_days, fire_risk, crossings]):
+                st.caption("No conditions data available.")
 
         # ── Historical comparison (live trips only) ────────────────────────────
         ch = brief.get("conditions_historical")

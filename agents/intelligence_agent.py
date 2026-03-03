@@ -129,12 +129,22 @@ Rules:
 - Include the complete tool output under each key — do not summarize or truncate it.
 - For routes with no water crossings, get_streamflow will return an empty crossings list — include it.
 - synthesis_notes must be plain prose only: no JSON, no code blocks, no markdown, no backticks.
-  Flag the single highest-risk factor first, then note anything else actionable.
+  Write 3-4 sentences giving the hiker a practical verdict for this specific route on these dates.
+  Lead with the highest-risk factor and name its specific impact on THIS route and terrain
+  (e.g. "Heavy snow above 5,000 ft makes the Enchantments Traverse dangerous today" — not just
+  "weather is high risk"). For weather alerts, name the hazard and affected terrain or crossing.
+  For high AQI, name the smoke source if known. For fire, give the distance and direction.
+  For high water, name the crossing and CFS if available. If multiple factors are elevated, rank
+  them — tackle the worst first.
   Mention wildlife if risk_level is medium or high.
-  If community_reports has posts, briefly note whether they confirm or contradict official data.
-  Always label community reports as unverified.
-  Example: "Weather looks clear for both days with no alerts. AQI is Good. One river crossing
-  is at moderate flow — confirm conditions day-of. Community reports (unverified) mention high water."
+  If community_reports has posts, briefly note whether they confirm or contradict official data —
+  always label community reports as unverified.
+  End with a plain verdict: one of "Trip not recommended for these dates.",
+  "Proceed with caution — confirm conditions day-of.", or "Conditions look good for this trip."
+  Example: "A Flash Flood Watch is in effect through Tuesday — the Hoh River crossing near
+  Glacier Meadows is at 840 CFS and extremely dangerous. Combined with heavy rain forecast at
+  elevation, this route is not recommended for these dates. Community reports (unverified) confirm
+  high water at the main river crossing."
 - Do not include any text outside the JSON object. Output the JSON immediately with no preamble.
 """
 
