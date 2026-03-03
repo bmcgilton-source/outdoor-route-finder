@@ -32,12 +32,14 @@ def score(trip_context: dict) -> dict:
     conditions = trip_context.get("conditions", {})
     days = trip_context.get("itinerary", {}).get("days", [])
 
-    weather_by_date = {
-        d["date"]: d for d in conditions.get("weather", {}).get("days", [])
-    }
-    aqi_by_date = {
-        d["date"]: d for d in conditions.get("aqi", {}).get("days", [])
-    }
+    # Ordered lists for index-based fallback (used when date matching fails, e.g. after
+    # the Replanner rewrites the itinerary and Claude Haiku drops the date field)
+    weather_days_ordered = conditions.get("weather", {}).get("days", [])
+    aqi_days_ordered     = conditions.get("aqi", {}).get("days", [])
+
+    weather_by_date = {d["date"]: d for d in weather_days_ordered}
+    aqi_by_date     = {d["date"]: d for d in aqi_days_ordered}
+
     fire_risk_level = conditions.get("fire", {}).get("risk_level", "low")
     water_crossings = conditions.get("water", {}).get("crossings", [])
 
@@ -45,10 +47,12 @@ def score(trip_context: dict) -> dict:
     water_risk_level = _worst_risk([c.get("risk_level", "low") for c in water_crossings])
 
     scored_days = []
-    for day in days:
+    for i, day in enumerate(days):
         date = day.get("date", "")
-        w = weather_by_date.get(date, {})
-        a = aqi_by_date.get(date, {})
+        # Primary: match by date string. Fallback: use the i-th entry by position.
+        # The fallback handles cases where Claude Haiku drops date fields during replanning.
+        w = weather_by_date.get(date) or (weather_days_ordered[i] if i < len(weather_days_ordered) else {})
+        a = aqi_by_date.get(date)     or (aqi_days_ordered[i]     if i < len(aqi_days_ordered)     else {})
 
         weather_score = _LEVEL.get(w.get("risk_level", "low"), 0)
         aqi_score = _LEVEL.get(a.get("risk_level", "low"), 0)

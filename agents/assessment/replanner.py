@@ -39,6 +39,7 @@ You may NOT:
 - Change the route (same start/end trailhead, same waypoints)
 - Add more days than the original trip_length
 - Remove a day
+- Change or omit the "date" field on any day — preserve each day's exact YYYY-MM-DD date
 
 Return the revised itinerary JSON with the SAME structure as the original, plus a \
 "replanner_notes" field explaining what was changed and why.
