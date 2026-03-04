@@ -1474,6 +1474,78 @@
       }
     },
     {
+      "id": "mount-pilchuck",
+      "name": "Mount Pilchuck Lookout",
+      "sub_region": "North Cascades",
+      "route_type": "out-and-back",
+      "difficulty": "Hard",
+      "total_miles": 5.4,
+      "elevation_gain_ft": 2200,
+      "season": [
+        "July",
+        "August",
+        "September",
+        "October"
+      ],
+      "trailhead": {
+        "name": "Mount Pilchuck Trailhead",
+        "lat": 48.066,
+        "lon": -121.826
+      },
+      "bounding_box": {
+        "min_lat": 48.06,
+        "max_lat": 48.075,
+        "min_lon": -121.835,
+        "max_lon": -121.81
+      },
+      "water_crossings": [],
+      "water_sources": [
+        {
+          "name": "Seasonal snowmelt streams",
+          "type": "stream",
+          "cumulative_miles": 1.0
+        }
+      ],
+      "waypoints": [
+        {
+          "name": "Mount Pilchuck Trailhead",
+          "lat": 48.066,
+          "lon": -121.826,
+          "elevation_ft": 3100,
+          "cumulative_miles": 0.0
+        },
+        {
+          "name": "Heather meadows",
+          "lat": 48.067,
+          "lon": -121.822,
+          "elevation_ft": 4300,
+          "cumulative_miles": 1.5
+        },
+        {
+          "name": "Boulder field / false summit",
+          "lat": 48.068,
+          "lon": -121.818,
+          "elevation_ft": 5100,
+          "cumulative_miles": 2.2
+        },
+        {
+          "name": "Mount Pilchuck Summit Lookout",
+          "lat": 48.069,
+          "lon": -121.814,
+          "elevation_ft": 5324,
+          "cumulative_miles": 2.7
+        }
+      ],
+      "description": "Mount Pilchuck is a popular summit in the Cascades foothills above Granite Falls, rewarding hikers with panoramic views of Puget Sound, the Olympics, and surrounding peaks from a historic 1921 fire lookout. The trail climbs steeply through old-growth forest before breaking into open heather meadows and a rocky boulder scramble to the summit. Despite the short distance, the sustained 2,200-foot gain and rocky terrain near the top make this a genuinely challenging day hike.",
+      "reservations": {
+        "permit_required": false,
+        "permit_type": "none",
+        "booking_system": null,
+        "parking_pass": "Discover Pass",
+        "notes": "No hiking permit required. A Discover Pass is required for parking at the trailhead, accessed via Forest Road 42 off Mountain Loop Highway."
+      }
+    },
+    {
       "id": "adhoc-mailbox-peak",
       "name": "Mailbox Peak Trail",
       "sub_region": "Central Cascades",

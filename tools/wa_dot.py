@@ -29,6 +29,7 @@ _ROUTE_PASS_MAP: dict[str, int | None] = {
     "maple-pass-loop":          17,   # North Cascades Hwy (SR-20) — seasonal closure
     "pasayten-wilderness":      17,   # North Cascades Hwy (SR-20) — seasonal closure
     "rattlesnake-ledge":        7,    # Snoqualmie Pass (I-90)
+    "mount-pilchuck":           None, # Mountain Loop Hwy — no WSDOT pass
     "heather-lake":             None, # Mountain Loop Hwy — no WSDOT pass
     "ozette-triangle":          None, # US-101 — no pass
     "lake-22":                  None, # Mountain Loop Hwy — no WSDOT pass
