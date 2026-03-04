@@ -1122,7 +1122,10 @@ def _build_route_map_html(route_id: str, route_data_json: str) -> tuple[str, boo
         return "", False
 
     lats, lons = [c[0] for c in coords], [c[1] for c in coords]
-    m = folium.Map(tiles="OpenStreetMap", prefer_canvas=True)
+    center = [(min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2]
+    span   = max(max(lats) - min(lats), max(lons) - min(lons))
+    zoom   = 14 if span < 0.03 else 13 if span < 0.07 else 12 if span < 0.12 else 11 if span < 0.25 else 10 if span < 0.50 else 9
+    m = folium.Map(location=center, zoom_start=zoom, tiles="OpenStreetMap", prefer_canvas=True)
 
     folium.PolyLine(coords, color="#3B82F6", weight=3, opacity=0.85).add_to(m)
 
@@ -1163,7 +1166,6 @@ def _build_route_map_html(route_id: str, route_data_json: str) -> tuple[str, boo
             icon=folium.Icon(color="green", icon="flag"),
         ).add_to(m)
 
-    m.fit_bounds([[min(lats), min(lons)], [max(lats), max(lons)]])
     return m._repr_html_(), has_geo
 
 
