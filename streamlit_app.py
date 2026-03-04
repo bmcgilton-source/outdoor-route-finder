@@ -14,7 +14,9 @@ import time
 from pathlib import Path
 
 import anthropic
+import folium
 import streamlit as st
+from streamlit_folium import st_folium
 
 import orchestrator
 from agents.assessment import gear as gear_module
@@ -693,6 +695,9 @@ def _show_brief() -> None:
                 unsafe_allow_html=True,
             )
 
+    # ── Route map ─────────────────────────────────────────────────────────────
+    _show_route_map(route)
+
     # ── Conditions ────────────────────────────────────────────────────────────
     with st.expander("Current Conditions", expanded=True):
         if conditions.get("_historical"):
@@ -1091,6 +1096,79 @@ def _show_brief() -> None:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
+def _load_geometry(route_id: str) -> list[list[float]]:
+    """Load trail geometry from data/geometry/{route_id}.json. Returns [[lat, lon], ...]."""
+    geo_path = Path("data") / "geometry" / f"{route_id}.json"
+    if geo_path.exists():
+        return [[p["lat"], p["lon"]] for p in json.loads(geo_path.read_text())]
+    return []
+
+
+def _show_route_map(route: dict) -> None:
+    """Render a folium trail map inside a collapsed expander."""
+    route_id  = route.get("id", "")
+    geo_pts   = _load_geometry(route_id)
+    has_geo   = bool(geo_pts)
+    coords    = geo_pts or [[w["lat"], w["lon"]] for w in route.get("waypoints", [])]
+
+    if not coords:
+        return
+
+    lats, lons = [c[0] for c in coords], [c[1] for c in coords]
+
+    m = folium.Map(tiles="OpenStreetMap", prefer_canvas=True)
+
+    # Trail polyline
+    folium.PolyLine(coords, color="#3B82F6", weight=3, opacity=0.85).add_to(m)
+
+    # Named waypoint markers
+    for wp in route.get("waypoints", []):
+        folium.CircleMarker(
+            location=[wp["lat"], wp["lon"]],
+            radius=5,
+            color="#1D4ED8",
+            fill=True,
+            fill_color="#3B82F6",
+            fill_opacity=0.9,
+            popup=folium.Popup(
+                f"<b>{wp['name']}</b><br>{wp.get('elevation_ft', 0):,} ft"
+                f" &nbsp;·&nbsp; {wp.get('cumulative_miles', '')} mi",
+                max_width=220,
+            ),
+            tooltip=wp["name"],
+        ).add_to(m)
+
+    # Water crossing markers
+    for wc in route.get("water_crossings", []):
+        folium.CircleMarker(
+            location=[wc["lat"], wc["lon"]],
+            radius=5,
+            color="#0EA5E9",
+            fill=True,
+            fill_color="#38BDF8",
+            fill_opacity=0.85,
+            popup=folium.Popup(f"Water crossing: {wc['name']}", max_width=180),
+            tooltip=wc["name"],
+        ).add_to(m)
+
+    # Trailhead marker
+    th = route.get("trailhead", {})
+    if th.get("lat") and th.get("lon"):
+        folium.Marker(
+            location=[th["lat"], th["lon"]],
+            popup=folium.Popup(f"<b>Trailhead</b><br>{th.get('name', '')}", max_width=200),
+            tooltip="Trailhead",
+            icon=folium.Icon(color="green", icon="flag"),
+        ).add_to(m)
+
+    m.fit_bounds([[min(lats), min(lons)], [max(lats), max(lons)]])
+
+    with st.expander("Route Map", expanded=False):
+        st_folium(m, use_container_width=True, height=420, returned_objects=[])
+        source = "OSM trail geometry" if has_geo else "waypoint approximation"
+        st.caption(f"Trail line from {source} · Click markers for details")
+
 
 def _claude_create(**kwargs) -> str:
     """Call _client.messages.create with retry on 529 overload. Returns response text."""

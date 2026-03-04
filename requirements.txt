@@ -1,4 +1,6 @@
 anthropic==0.79.0
+folium==0.19.5
 python-dotenv==1.2.1
 requests==2.32.5
 streamlit==1.54.0
+streamlit-folium==0.24.0
