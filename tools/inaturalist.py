@@ -16,10 +16,11 @@ _BASE_URL  = "https://api.inaturalist.org/v1/observations"
 _DAYS_BACK = 30  # look-back window for "recent" sightings
 
 
-def get_wildlife(min_lat: float, max_lat: float, min_lon: float, max_lon: float) -> dict:
+def get_wildlife(min_lat: float, max_lat: float, min_lon: float, max_lon: float,
+                 trail_name: str = "") -> dict:
     """Return recent bear and cougar sightings within the route bounding box."""
     if use_mock():
-        return _mock_wildlife()
+        return _mock_wildlife(trail_name)
     try:
         return _live_wildlife(min_lat, max_lat, min_lon, max_lon)
     except Exception as e:
@@ -119,8 +120,22 @@ def _build_notes(bear_count: int, cougar_count: int, risk: str) -> str:
     return base + " Carry bear spray. Store food properly."
 
 
-def _mock_wildlife() -> dict:
-    scenario = mock_scenario()
+def _mock_wildlife(trail_name: str = "") -> dict:
+    # Match mock data to the actual route, same pattern as _mock_reports in reddit.py
+    name_lower = trail_name.lower()
+    if any(k in name_lower for k in ("goat rock", "snowgrass")):
+        scenario = 1
+    elif any(k in name_lower for k in ("enchantment",)):
+        scenario = 2
+    elif any(k in name_lower for k in ("olympic", "high divide", "hoh")):
+        scenario = 3
+    elif any(k in name_lower for k in ("maple pass",)):
+        scenario = 1  # similar low-activity profile to Goat Rocks
+    elif any(k in name_lower for k in ("pasayten", "boundary")):
+        scenario = 1  # remote eastern Cascades, lower activity
+    else:
+        scenario = mock_scenario()  # fallback to env var for unrecognised routes
+
     if scenario == 1:
         # Goat Rocks — one bear sighting, medium risk
         return {

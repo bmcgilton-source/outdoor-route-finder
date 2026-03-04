@@ -3,16 +3,15 @@ Assessment Agent — runs after BOTH Intelligence Agent and Day Planner complete
 
 Responsibilities:
   1. Run Risk Scorer (deterministic code)
-  2. Run Gear Sub-agent (needs conditions from Intelligence)
-  3. If replanning required → spawn Replanner (max 1 attempt)
-  4. If still failing → spawn Plan B (max 1 attempt)
-  5. If Plan B fails → set no_viable_route in Trip Context
+  2. If replanning required → spawn Replanner (max 1 attempt)
+  3. If still failing → spawn Plan B (max 1 attempt)
+  4. If Plan B fails → set no_viable_route in Trip Context
 
+Gear recommendations are generated on-demand from the UI, not in this pipeline.
 Does NOT make a Claude call itself — it orchestrates the sub-agents and scorer.
 """
 
 import risk_scorer
-from agents.assessment import gear
 from agents.assessment import replanner
 from agents.assessment import plan_b as plan_b_agent
 from logger import get_logger
@@ -46,10 +45,6 @@ def run(trip_context: dict, progress_cb=None) -> dict:
     risk = trip_context["risk"]
     dominant = risk.get("dominant_factor") or "none"
     _cb(f"Risk assessed: {risk['overall_risk'].upper()}  ·  main concern: {dominant}")
-
-    # Step 2: Gear recommendations (needs conditions)
-    _cb("Generating gear recommendations…")
-    trip_context = gear.run(trip_context)
     trace.append({
         "agent": "assessment",
         "event": "risk_scored",

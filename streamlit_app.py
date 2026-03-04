@@ -17,6 +17,7 @@ import anthropic
 import streamlit as st
 
 import orchestrator
+from agents.assessment import gear as gear_module
 from tools.base import CONFIG
 from ui import _build_system, _is_valid_input, _save_adhoc_route, _try_parse_json
 
@@ -356,16 +357,28 @@ def _show_planning() -> None:
 
     # ── Step tracker ──────────────────────────────────────────────────────────
     STEPS = [
-        ("route",      "Selecting route"),
-        ("conditions", "Gathering conditions"),
-        ("itinerary",  "Building itinerary"),
-        ("risk",       "Scoring risk"),
-        ("gear",       "Generating gear list"),
-        ("brief",      "Polishing brief"),
+        ("route",       "Selecting route"),
+        ("conditions",  "Gathering conditions"),
+        ("itinerary",   "Building itinerary"),
+        ("risk",        "Scoring risk"),
+        ("replan",      "Adjusting itinerary"),    # shown only if replanning triggered
+        ("plan_b_step", "Finding alternate route"), # shown only if Plan B triggered
+        ("brief",       "Polishing brief"),
     ]
     _labels = {k: v for k, v in STEPS}
 
+    # Steps that start hidden and only appear if the pipeline reaches them
+    _HIDDEN_INITIALLY = {"replan", "plan_b_step"}
+
+    # Track current state so we can skip hidden steps in the final "mark all done" pass
+    _state: dict[str, str] = {
+        key: ("hidden" if key in _HIDDEN_INITIALLY else "pending")
+        for key, _ in STEPS
+    }
+
     def _step_html(key: str, state: str) -> str:
+        if state == "hidden":
+            return ""
         label = _labels[key]
         if state == "done":
             return f'<span style="color:#22C55E;">&#10003; {label}</span>'
@@ -376,9 +389,10 @@ def _show_planning() -> None:
     _ph = {}
     for key, _ in STEPS:
         _ph[key] = st.empty()
-        _ph[key].markdown(_step_html(key, "pending"), unsafe_allow_html=True)
+        _ph[key].markdown(_step_html(key, _state[key]), unsafe_allow_html=True)
 
     def _update(key: str, state: str) -> None:
+        _state[key] = state
         _ph[key].markdown(_step_html(key, state), unsafe_allow_html=True)
 
     def progress_cb(msg: str) -> None:
@@ -392,21 +406,29 @@ def _show_planning() -> None:
         elif "Conditions checked" in msg:
             _update("conditions", "done")
             _update("itinerary",  "done")
-            _update("gear",       "running")
-        elif "Generating gear" in msg:
-            _update("gear", "running")
+            _update("risk",       "running")
         elif "Risk assessed" in msg:
-            _update("gear",  "done")
-            _update("risk",  "done")
-            _update("brief", "running")
+            _update("risk", "done")
+        elif "Risk elevated" in msg:
+            # Replanner spawned — show the replan step
+            _update("replan", "running")
+        elif "Itinerary adjustment insufficient" in msg:
+            # Plan B spawned — show the Plan B step
+            _update("replan",      "done")
+            _update("plan_b_step", "running")
         elif "Polishing" in msg:
+            # Whatever was last running, close it out
+            for key in ("replan", "plan_b_step"):
+                if _state[key] == "running":
+                    _update(key, "done")
             _update("brief", "running")
 
     brief = orchestrator.run(ui, progress_cb=progress_cb)
 
-    # Mark any remaining steps done (e.g. fast runs where some messages overlap)
+    # Mark any remaining visible steps done (skip steps that were never shown)
     for key, _ in STEPS:
-        _update(key, "done")
+        if _state[key] != "hidden":
+            _update(key, "done")
 
     # Auto-save ad-hoc routes to build the trail database
     if brief.get("route", {}).get("_adhoc"):
@@ -856,30 +878,48 @@ def _show_brief() -> None:
                 st.write(description)
 
     # ── Gear ──────────────────────────────────────────────────────────────────
-    if gear_list:
-        with st.expander("What to Pack", expanded=True):
-            for priority, label in (
-                ("required",    "Must-have"),
-                ("recommended", "Recommended"),
-                ("optional",    "Nice to have"),
-            ):
-                items = [g for g in gear_list if g.get("priority") == priority]
-                if items:
-                    st.markdown(f"**{label}**")
-                    for g in items:
-                        reason = f"  —  {g['reason']}" if g.get("reason") else ""
-                        prefix = "✓" if priority == "required" else "◦"
-                        st.write(f"{prefix}  {g['item']}{reason}")
+    if status not in ("no_viable_route",):
+        if gear_list:
+            with st.expander("What to Pack", expanded=True):
+                for priority, label in (
+                    ("required",    "Must-have"),
+                    ("recommended", "Recommended"),
+                    ("optional",    "Nice to have"),
+                ):
+                    items = [g for g in gear_list if g.get("priority") == priority]
+                    if items:
+                        st.markdown(f"**{label}**")
+                        for g in items:
+                            reason = f"  —  {g['reason']}" if g.get("reason") else ""
+                            prefix = "✓" if priority == "required" else "◦"
+                            st.write(f"{prefix}  {g['item']}{reason}")
 
-            if gear_notes:
-                st.caption(gear_notes)
+                if gear_notes:
+                    st.caption(gear_notes)
+        else:
+            if st.button("Get gear recommendations", type="secondary"):
+                with st.spinner("Generating gear list…"):
+                    _ctx = {
+                        "selected_route": brief["route"],
+                        "itinerary": brief["itinerary"],
+                        "conditions": {
+                            **brief["conditions"],
+                            "synthesis_notes": brief["conditions"].get("summary", ""),
+                        },
+                        "user_input": st.session_state.user_input,
+                        "reasoning_trace": [],
+                    }
+                    _result = gear_module.run(_ctx)
+                st.session_state.brief["gear"] = _result.get("gear", [])
+                st.session_state.brief["gear_notes"] = _result.get("gear_notes", "")
+                st.rerun()
 
-        st.download_button(
-            "Export trip brief",
-            data=_build_export(brief),
-            file_name=f"trailops-{route.get('id', 'brief')}.txt",
-            mime="text/plain",
-        )
+    st.download_button(
+        "Export trip brief",
+        data=_build_export(brief),
+        file_name=f"trailops-{route.get('id', 'brief')}.txt",
+        mime="text/plain",
+    )
 
     # ── Next steps (no viable route only) ────────────────────────────────────
     if status == "no_viable_route":

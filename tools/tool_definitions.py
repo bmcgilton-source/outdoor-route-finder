@@ -127,6 +127,10 @@ INTELLIGENCE_TOOLS = [
                 "max_lon": {
                     "type": "number",
                     "description": "Bounding box maximum longitude"
+                },
+                "trail_name": {
+                    "type": "string",
+                    "description": "Name of the trail or route (e.g. 'Enchantments Traverse', 'Goat Rocks')"
                 }
             },
             "required": ["min_lat", "max_lat", "min_lon", "max_lon"]

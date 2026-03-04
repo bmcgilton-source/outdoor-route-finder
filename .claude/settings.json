@@ -27,7 +27,14 @@
       "Bash(where python)",
       "Bash(where streamlit)",
       "Read(//c/Program Files/WindowsApps/PythonSoftwareFoundation.Python.3.12_3.12.2800.0_x64__qbz5n2kfra8p0/**)",
-      "Bash(ls c:/Users/b_mcg/Documents/Projects/outdoor-route-finder/*.py)"
+      "Bash(ls c:/Users/b_mcg/Documents/Projects/outdoor-route-finder/*.py)",
+      "Bash(git add risk_scorer.py agents/assessment/replanner.py)",
+      "Bash(git commit:*)",
+      "Bash(git push origin main)",
+      "Bash(git add agents/intelligence_agent.py orchestrator.py streamlit_app.py)",
+      "Bash(snow above 5,000 ft makes the Enchantments Traverse dangerous\"\\) rather:*)",
+      "Bash(git add tools/reddit.py)",
+      "Bash(git add .claude/settings.json ARCHITECTURE.md agents/assessment_agent.py agents/brief_reviewer.py agents/intelligence_agent.py data/routes.json streamlit_app.py tools/inaturalist.py tools/tool_definitions.py)"
     ],
     "additionalDirectories": [
       "c:\\Users\\b_mcg\\.claude\\projects\\c--Users-b-mcg-Documents-Projects-outdoor-route-finder\\memory"

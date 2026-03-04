@@ -1489,6 +1489,23 @@
         "parking_pass": "Northwest Forest Pass",
         "notes": "No permit required to hike Mailbox Peak. A Northwest Forest Pass or equivalent Interagency Pass is required for parking at the trailhead."
       }
+    },
+    {
+      "id": "adhoc-snow-lake",
+      "name": "Snow Lake Trail",
+      "sub_region": "Central Cascades",
+      "difficulty": "Moderate",
+      "route_type": "out-and-back",
+      "total_miles": 8.0,
+      "elevation_gain_ft": 1800,
+      "description": "One of the most popular day hikes in the Alpine Lakes Wilderness, Snow Lake Trail climbs through old-growth forest and open heather meadows before revealing a stunning glacially-carved lake backed by Chair Peak. The trail offers spectacular views of the Cascade peaks and the striking aquamarine waters of Snow Lake. Despite its popularity, the scenery and accessibility make it a quintessential Central Cascades experience.",
+      "reservations": {
+        "permit_required": true,
+        "permit_type": "self-issue",
+        "booking_system": null,
+        "parking_pass": "Northwest Forest Pass",
+        "notes": "A free self-issue Alpine Lakes Wilderness permit is required at the trailhead. A Northwest Forest Pass or equivalent Interagency Pass is required for parking at the Alpental lot."
+      }
     }
   ]
 }

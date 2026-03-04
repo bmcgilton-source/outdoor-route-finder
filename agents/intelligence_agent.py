@@ -329,6 +329,7 @@ def _build_user_message(route: dict, dates: dict) -> str:
         f"Trip dates: {dates['start']} to {dates['end']}\n\n"
         f"For get_community_reports, use trail_name=\"{route['name']}\" "
         f"and region=\"{route.get('sub_region', '')}\". "
+        f"For get_wildlife, include trail_name=\"{route['name']}\". "
         "Call all six tools now."
     )
 

@@ -10,12 +10,20 @@
 ## Agent Hierarchy (3 levels)
 
 ```
+UI Layer (pre-pipeline)
+├── get_route_options()         ← scores + ranks routes from routes.json; returns 3+ options to UI
+│                                  User selects a route (or names a trail; UI interprets free-form)
+│
 Orchestrator                    ← deterministic; owns Trip Context; spawns all top-level agents
+├── [step 1] _select_route()    ← locks chosen route into Trip Context; generates ad-hoc route
+│                                  data via Claude (Sonnet) if trail is not in routes.json
 ├── Intelligence Agent          ← spawned by Orchestrator, runs in parallel with Day Planner
 │   ├── [tool] get_weather      → NOAA/NWS API
 │   ├── [tool] get_air_quality  → AirNow API
 │   ├── [tool] get_fire_data    → NIFC API
-│   └── [tool] get_streamflow   → USGS API
+│   ├── [tool] get_streamflow   → USGS API
+│   ├── [tool] get_wildlife     → iNaturalist API
+│   └── [tool] get_community_reports → Reddit (PRAW)
 ├── Day Planner                 ← spawned by Orchestrator, runs in parallel with Intelligence
 │                               NOTE: lives in sub_agents/ for code organization only;
 │                               it is a sibling of Intelligence Agent, NOT a child of it
@@ -27,8 +35,8 @@ Orchestrator                    ← deterministic; owns Trip Context; spawns all
 ```
 
 **Tool use pattern (Intelligence Agent):**
-- Intelligence Agent is a single Claude API call with all 4 tools defined in the request
-- Claude decides to call all 4 tools in parallel using parallel tool use
+- Intelligence Agent is a single Claude API call with all 6 tools defined in the request
+- Claude decides to call all 6 tools in parallel using parallel tool use
 - Python executes the tool functions and returns results to Claude
 - Claude synthesizes results into the Conditions Schema and writes to Trip Context
 - No separate sub-agent Claude calls for data gathering — tools replace them
@@ -79,25 +87,59 @@ Region is locked to PNW for now (implicit, not asked).
 
 ---
 
+## Route Selection
+
+Route selection is a two-phase process that happens **before** the main pipeline runs.
+
+**Phase 1 — Options (UI, pre-pipeline):**
+`get_route_options()` scores every route in `routes.json` against the user's criteria and returns the top 3+ candidates for display. The UI shows these as a ranked table; the user picks one.
+
+**Scoring weights:**
+| Factor | Points |
+|--------|--------|
+| Difficulty match | 4 |
+| Trip-length fit (how close to route's natural pace) | 0–3 |
+| In season for trip dates | 3 |
+| Route type match (loop / thru / out-and-back) | 2 |
+| Sub-region match | 1 |
+| Miles/day within 5–15 mi/day window | 1 |
+
+If no route fits the requested day count at a good pace, the scorer tries ±1 day and flags `days_adjusted: true` in the returned options.
+
+**Phase 2 — Lock-in (inside `orchestrator.run()`):**
+`_select_route()` resolves the confirmed route by one of three paths:
+
+1. **Named trail in DB** — user said "the Enchantments"; UI sets `route_id`; direct lookup, no scoring needed
+2. **Unknown trail** — user named a trail not in `routes.json`; Claude (Sonnet) generates approximate route data (coordinates, mileage, elevation, water crossings) from its knowledge; result tagged `_adhoc: true` and saved for future use
+3. **Generic criteria** — no specific trail named; scoring selects best match from `routes.json`
+
+---
+
 ## Data Flow
 
 1. User inputs free-form text via UI layer
 2. Claude (Haiku) parses to structured input → populates Trip Context (user_input fields)
-3. Orchestrator selects route from `routes.json` → adds to Trip Context
-4. Orchestrator spawns Intelligence Agent + Day Planner in parallel
-5. **Intelligence Agent — forecast horizon branch:**
-   - If trip start ≤ 7 days out: single Claude (Sonnet) call with 4 tools defined → Claude calls all 4 tools in parallel → Python executes each tool → Claude synthesizes results → writes Conditions to Trip Context
+3. UI calls `get_route_options()` → scores all routes → displays ranked table of 3+ candidates
+4. User selects a route (explicit pick, or free-form text interpreted by Claude)
+5. `orchestrator.run()` called with confirmed user_input (including `route_id` if named trail in DB, or `requested_trail` if unknown)
+6. `_select_route()` locks route into Trip Context:
+   - Named trail in DB → direct lookup by `route_id`
+   - Unknown trail → Claude (Sonnet) generates approximate route data from its knowledge
+   - Generic criteria → scoring selects best match from routes.json
+7. Orchestrator spawns Intelligence Agent + Day Planner in parallel
+8. **Intelligence Agent — forecast horizon branch:**
+   - If trip start ≤ 7 days out: single Claude (Sonnet) call with 6 tools defined → Claude calls all 6 tools in parallel → Python executes each tool → Claude synthesizes results → writes Conditions to Trip Context
    - If trip start > 7 days out: single Claude (Haiku) call for seasonal averages (skips live APIs) → writes Conditions with `_historical: true` flag
-6. Day Planner builds initial itinerary from route data only → writes to Trip Context
-7. Assessment Agent runs after **both** step 5 and 6 complete; emits progress updates via callback
-8. Assessment spawns Gear Sub-agent (Haiku; uses conditions) → writes gear list to Trip Context
-9. Risk Scorer (deterministic code) scores each day → writes risk to Trip Context
-10. If any day risk > threshold → spawn Replanner (Haiku, max 1 attempt)
-11. Replanner adjusts itinerary → Risk Scorer re-validates
-12. If still failing → spawn Plan B Sub-agent (alternate route, same region, max 1 attempt)
-13. If Plan B also fails → return "no viable route" response with explanation
-14. Brief Reviewer (Haiku) cleans prose fields in the assembled brief
-15. Orchestrator returns final trip brief; UI renders it (Sonnet call for prose formatting)
+9. Day Planner builds initial itinerary from route data only → writes to Trip Context
+10. Assessment Agent runs after **both** step 8 and 9 complete; emits progress updates via callback
+11. Assessment spawns Gear Sub-agent (Haiku; uses conditions) → writes gear list to Trip Context
+12. Risk Scorer (deterministic code) scores each day → writes risk to Trip Context
+13. If any day risk > threshold → spawn Replanner (Haiku, max 1 attempt)
+14. Replanner adjusts itinerary → Risk Scorer re-validates
+15. If still failing → spawn Plan B Sub-agent (alternate route, same region, max 1 attempt)
+16. If Plan B also fails → return "no viable route" response with explanation
+17. Brief Reviewer (Haiku) cleans prose fields in the assembled brief
+18. Orchestrator returns final trip brief; UI renders it (Sonnet call for prose formatting)
 
 ---
 
@@ -112,7 +154,7 @@ outdoor-route-finder/
 ├── streamlit_app.py            ← primary UI (chat intake + trip brief display)
 ├── orchestrator.py
 ├── agents/
-│   ├── intelligence_agent.py   ← single Claude call with 4 tools defined
+│   ├── intelligence_agent.py   ← single Claude call with 6 tools defined
 │   ├── assessment_agent.py
 │   ├── brief_reviewer.py       ← cleans AI-generated prose before display (Haiku)
 │   └── sub_agents/
@@ -126,7 +168,9 @@ outdoor-route-finder/
 │   ├── nws.py                  ← executes when Claude calls get_weather
 │   ├── airnow.py               ← executes when Claude calls get_air_quality
 │   ├── usgs.py                 ← executes when Claude calls get_streamflow
-│   └── nifc.py                 ← executes when Claude calls get_fire_data
+│   ├── nifc.py                 ← executes when Claude calls get_fire_data
+│   ├── inaturalist.py          ← executes when Claude calls get_wildlife (iNaturalist; no key)
+│   └── reddit.py               ← executes when Claude calls get_community_reports (PRAW)
 ├── data/
 │   ├── routes.json             # PNW route catalog (15 routes)
 │   └── scenarios/              # 3 pre-built test cases
@@ -188,6 +232,22 @@ Structured JSON written to Trip Context after Intelligence Agent synthesizes all
     "crossings": [
       {"name": "...", "streamflow_cfs": 120, "risk_level": "low|medium|high"}
     ]
+  },
+  "wildlife": {
+    "recent_sightings": [
+      {"species": "Bear", "taxon": "Ursus americanus", "date": "YYYY-MM-DD", "place": "...", "lat": 0.0, "lon": 0.0}
+    ],
+    "bear_count": 0,
+    "cougar_count": 0,
+    "risk_level": "low|medium|high",
+    "notes": "..."
+  },
+  "community_reports": {
+    "posts": [
+      {"title": "...", "date": "YYYY-MM-DD", "subreddit": "...", "snippet": "..."}
+    ],
+    "post_count": 0,
+    "notes": "..."
   },
   "synthesis_notes": "...",
   "_historical": false
@@ -251,14 +311,18 @@ no_viable_route response includes:
 
 ## External APIs
 
-| API | Purpose | URL |
-|-----|---------|-----|
-| NOAA/NWS | Forecasts + alerts | https://api.weather.gov |
-| EPA AirNow | AQI observations + forecasts | https://docs.airnowapi.org |
-| USGS Water | Streamflow / river crossing risk | https://api.waterdata.usgs.gov |
-| NIFC | Active wildfire perimeters | https://data-nifc.opendata.arcgis.com |
+| API | Purpose | Cost | Key required |
+|-----|---------|------|-------------|
+| NOAA/NWS | Forecasts + alerts | Free | No — User-Agent header only |
+| USGS Water | Streamflow / river crossing risk | Free | No |
+| NIFC | Active wildfire perimeters | Free | No |
+| iNaturalist | Recent bear/cougar sightings near route | Free | No — public read |
+| EPA AirNow | AQI observations + forecasts | Free | Yes — register at airnow.gov |
+| Reddit (PRAW) | Community trip reports | Free | Yes — create a Reddit app at reddit.com/prefs/apps |
 
 All APIs are free. Each tool wrapper lives in `tools/` and has a mock fallback for testing.
+
+**Mock routing:** When `USE_MOCK=true`, tools that depend on route context (`get_wildlife`, `get_community_reports`) route mock data by **trail name** (not by `MOCK_SCENARIO` env var). This ensures the Enchantments always shows Enchantments mock data regardless of which scenario number is set. Unknown routes fall back to `MOCK_SCENARIO` env var.
 
 ## Route Data Sources (for populating routes.json)
 
@@ -324,9 +388,13 @@ Each run produces:
 - **Conditional sub-agents** — Replanner and Plan B only spawn when needed
 - **API resilience** — 10s timeout, 2 retries, auto-fallback to mock on failure
 - **Mock fallbacks** — `USE_MOCK=true` forces mocks; auto-fallback activates on API failure
+- **Mock routing by trail name** — `get_wildlife` and `get_community_reports` route mock data by trail name (not `MOCK_SCENARIO` env var), so each route always gets its own mock data regardless of which scenario number is active; unknown routes fall back to env var
 - **Reasoning trace** — every agent logs its decisions and evidence citations
 - **Model tier split** — Sonnet for high-stakes reasoning (Intelligence tool loop, Day Planner, brief rendering); Haiku for all other calls (intake, Q&A, route classification, historical conditions, gear, replanner, brief reviewer); configured in `config.json` as `model` and `haiku_model`
 - **Forecast horizon** — Intelligence Agent checks days until trip at runtime; > 7 days skips live APIs and calls a single Haiku call for seasonal averages, setting `_historical: true` on the conditions object
 - **route_type is optional** — never asked during intake; `null` means no preference; scoring and rationale both skip type matching when null
 - **Progress callback** — `orchestrator.run()` and `assessment_agent.run()` accept `progress_cb=None`; called at sequential milestones only (NOT from ThreadPoolExecutor workers — Streamlit cannot write from non-main threads)
+- **Status tracker** — Streamlit UI pre-creates placeholders for all steps including `replan` and `plan_b_step`; those start hidden and only appear if the pipeline actually reaches them; state dict prevents hidden steps from being marked done at the end of a green-light run
+- **Risk scorer date fallback** — when the Replanner (Haiku) drops `date` fields from itinerary days during rewriting, `risk_scorer.py` falls back to index-based matching (i-th itinerary day → i-th conditions day) to prevent AQI/weather risk from silently dropping to zero
+- **synthesis_notes always shown** — the Intelligence Agent's route-specific plain-English verdict is always displayed as a caption under the live conditions bullet points (not just as a fallback when bullets are empty); also included in the `no_viable_route` conditions dict so it appears on the "trip not recommended" screen
 - **Brief rendering** — final trip brief prose is rendered by Claude (Sonnet) in the UI, not a Python template; Brief Reviewer (Haiku) cleans AI-generated prose fields before display
