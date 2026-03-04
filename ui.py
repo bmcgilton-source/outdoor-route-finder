@@ -139,7 +139,7 @@ Optional fields:
 
 Rules:
 - Ask only ONE follow-up question at a time if something is missing.
-- If the user names a specific trail, NEVER ask for difficulty, route_type, or trip length — use the route's typical days and derive difficulty/route_type from the route. Only ask for dates if missing.
+- If the user names a specific trail (whether or not it is in the list above), NEVER ask for difficulty, route_type, or trip length. For known routes, derive these from the route data. For unknown trails, leave them null — they are generated automatically. Only ask for dates if missing.
 - Apply defaults silently: trip_length_days=1. Never ask about route_type.
 - Only set route_type if the user explicitly mentions it (e.g. "I want a loop", "point-to-point"). \
   Otherwise leave it null.
