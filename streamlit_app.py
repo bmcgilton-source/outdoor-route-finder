@@ -20,7 +20,7 @@ import streamlit.components.v1 as _stc
 
 import orchestrator
 from agents.assessment import gear as gear_module
-from tools.base import CONFIG
+from tools.base import CONFIG, use_mock
 from ui import _build_system, _is_valid_input, _save_adhoc_route, _try_parse_json
 
 # ── Constants ─────────────────────────────────────────────────────────────────
@@ -38,6 +38,11 @@ _RISK = {
     "high":     ("HIGH",     "#EF4444", "rgba(239, 68, 68, 0.15)"),
     "critical": ("CRITICAL", "#991B1B", "rgba(153, 27, 27, 0.15)"),
 }
+
+def _src(name: str) -> str:
+    """Return 'mock' when running with USE_MOCK=true, otherwise the real source name."""
+    return "mock" if use_mock() else name
+
 
 _PERMIT_LABELS = {
     "none":       "None required",
@@ -711,7 +716,8 @@ def _show_brief() -> None:
         if conditions.get("_historical"):
             st.caption("Typical seasonal averages · live forecasts available within 7 days of your trip")
         else:
-            st.caption("Live data · Sources: NWS · AirNow · NIFC · USGS · iNaturalist · WSDOT")
+            _src_line = "Mock data · all conditions are simulated" if use_mock() else "Live data · Sources: NWS · AirNow · NIFC · USGS · iNaturalist · WSDOT"
+            st.caption(_src_line)
         _rl = {"low": 0, "medium": 1, "high": 2}
 
         if conditions.get("_historical"):
@@ -758,7 +764,7 @@ def _show_brief() -> None:
                 descs = list(dict.fromkeys(d.get("summary", "") for d in w_days if d.get("summary")))
                 temps = [d["high_f"] for d in w_days if d.get("high_f")]
                 temp_str = f", {min(temps)}–{max(temps)}°F" if temps else ""
-                st.markdown(f"- **Weather:** {', '.join(descs[:3])}{temp_str} · *NWS*")
+                st.markdown(f"- **Weather:** {', '.join(descs[:3])}{temp_str} · *{_src('NWS')}*")
 
             # AQI — worst category + AQI range
             a_days = conditions.get("aqi", {}).get("days", [])
@@ -767,7 +773,7 @@ def _show_brief() -> None:
                 aqis = [d["aqi"] for d in a_days if d.get("aqi")]
                 aqi_str = (f" (AQI {min(aqis)}–{max(aqis)})" if len(aqis) > 1
                            else f" (AQI {aqis[0]})" if aqis else "")
-                st.markdown(f"- **Air quality:** {worst_a.get('category', 'Unknown')}{aqi_str} · *AirNow*")
+                st.markdown(f"- **Air quality:** {worst_a.get('category', 'Unknown')}{aqi_str} · *{_src('AirNow')}*")
 
             # Fire — risk level + nearest fire if present
             fire = conditions.get("fire", {})
@@ -776,7 +782,7 @@ def _show_brief() -> None:
                 fires = fire.get("active_fires_nearby", [])
                 fire_note = (f" · {fires[0]['name']} ({fires[0].get('distance_miles', '?')} mi)"
                              if fires else "")
-                st.markdown(f"- **Fire:** {fire_risk.capitalize()} risk{fire_note} · *NIFC*")
+                st.markdown(f"- **Fire:** {fire_risk.capitalize()} risk{fire_note} · *{_src('NIFC')}*")
 
             # Water — crossing count + worst risk
             crossings = conditions.get("water", {}).get("crossings", [])
@@ -785,7 +791,7 @@ def _show_brief() -> None:
                 n = len(crossings)
                 st.markdown(
                     f"- **Water crossings:** {n} crossing{'s' if n > 1 else ''}"
-                    f" · highest: {worst_c.get('risk_level', 'low').capitalize()} · *USGS*"
+                    f" · highest: {worst_c.get('risk_level', 'low').capitalize()} · *{_src('USGS')}*"
                 )
 
             # Wildlife — bear/cougar sightings
@@ -801,10 +807,10 @@ def _show_brief() -> None:
                     parts.append(f"{cougars} cougar{'s' if cougars != 1 else ''}")
                 st.markdown(
                     f"- **Wildlife:** {', '.join(parts)} sighted in last 30 days"
-                    f" · {w_risk.capitalize()} risk · *iNaturalist*"
+                    f" · {w_risk.capitalize()} risk · *{_src('iNaturalist')}*"
                 )
             elif w_risk == "low":
-                st.markdown("- **Wildlife:** No bear or cougar sightings in last 30 days · *iNaturalist*")
+                st.markdown(f"- **Wildlife:** No bear or cougar sightings in last 30 days · *{_src('iNaturalist')}*")
 
             # Road access — live pass status
             pass_info = conditions.get("pass", {}) or {}
@@ -814,7 +820,7 @@ def _show_brief() -> None:
                 road_str = road_cond
                 if restriction:
                     road_str += f" · {restriction}"
-                st.markdown(f"- **Road access:** {pass_info['pass_name']} — {road_str} · *WSDOT*")
+                st.markdown(f"- **Road access:** {pass_info['pass_name']} — {road_str} · *{_src('WSDOT')}*")
 
             # Conditions summary — always shown; explains what the data means for this route
             notes = conditions.get("summary") or conditions.get("synthesis_notes", "")
