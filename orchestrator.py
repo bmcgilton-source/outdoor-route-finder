@@ -463,7 +463,7 @@ If the trail is not in Washington state or is completely unknown to you, return 
     dates = user_input.get("dates", {})
     response = _claude.messages.create(
         model=_MODEL,
-        max_tokens=1500,
+        max_tokens=2500,
         system=system,
         messages=[{
             "role": "user",
@@ -486,7 +486,8 @@ If the trail is not in Washington state or is completely unknown to you, return 
         data["_adhoc"] = True
         data["_coordinates_approximate"] = True
         return data
-    except (json.JSONDecodeError, ValueError):
+    except (json.JSONDecodeError, ValueError) as e:
+        log.error(f"Ad-hoc route generation failed for '{trail_name}': {e} — raw response: {raw[:200]!r}")
         return None
 
 
