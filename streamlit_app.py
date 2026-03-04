@@ -359,6 +359,14 @@ def _show_planning() -> None:
     )
 
     # ── Step tracker ──────────────────────────────────────────────────────────
+    st.markdown(
+        "<style>"
+        "@keyframes trailops-spin { to { transform: rotate(360deg); } }"
+        ".step-spin { display: inline-block; animation: trailops-spin 1s linear infinite; }"
+        "</style>",
+        unsafe_allow_html=True,
+    )
+
     STEPS = [
         ("route",       "Selecting route"),
         ("conditions",  "Gathering conditions"),
@@ -386,7 +394,7 @@ def _show_planning() -> None:
         if state == "done":
             return f'<span style="color:#22C55E;">&#10003; {label}</span>'
         if state == "running":
-            return f'<span style="color:#F59E0B;">&#8635; {label}&hellip;</span>'
+            return f'<span style="color:#F59E0B;"><span class="step-spin">&#8635;</span> {label}&hellip;</span>'
         return f'<span style="color:#9CA3AF;">&#9675; {label}</span>'
 
     _ph = {}
