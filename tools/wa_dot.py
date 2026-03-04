@@ -10,6 +10,7 @@ let the pipeline continue. An API outage shouldn't block trip planning.
 """
 
 import os
+from datetime import date
 
 from logger import get_logger
 from tools.base import CONFIG, call_with_retry, mock_scenario, use_mock
@@ -41,6 +42,16 @@ _ROUTE_PASS_MAP: dict[str, int | None] = {
     "glacier-peak-white-chuck": None, # Mountain Loop Hwy — no WSDOT pass
 }
 
+# Passes with predictable seasonal closures not reliably covered by the WSDOT
+# Mountain Pass Conditions API.  Tuple: (close_month, open_month) — inclusive.
+# SR-20 and SR-410 passes close around Nov 1 and reopen around May 1 (exact
+# dates vary by snowpack, but Nov–Apr is almost always closed).
+_SEASONAL_CLOSURES: dict[int, tuple[int, int]] = {
+    17: (11, 4),   # North Cascades Hwy SR-20: Nov–Apr
+    22: (11, 4),   # Cayuse Pass SR-410:        Nov–Apr
+    23: (11, 4),   # Chinook Pass SR-410:       Nov–Apr
+}
+
 _PASS_NAMES: dict[int, str] = {
     2:  "White Pass (US-12)",
     3:  "Stevens Pass (US-2)",
@@ -52,9 +63,12 @@ _PASS_NAMES: dict[int, str] = {
 }
 
 
-def get_pass_status(route_id: str) -> dict:
+def get_pass_status(route_id: str, trip_start_date: str | None = None) -> dict:
     """
     Return the mountain pass status for the given route.
+
+    trip_start_date: ISO date string (YYYY-MM-DD) for the first day of the trip.
+    Used to detect predictable seasonal closures before calling the API.
 
     Returns a dict with:
       pass_id:             WSDOT pass ID (None if no relevant pass)
@@ -65,8 +79,7 @@ def get_pass_status(route_id: str) -> dict:
       restriction:         Restriction text, or None if no restriction
       _gated:              True if this route has a relevant pass (gate was checked)
     """
-    # Ad-hoc routes (route_id starts with "adhoc-") skip the gate — we don't
-    # know their access road, so fail-open.
+    # Ad-hoc routes skip the gate — we don't know their access road.
     if route_id.startswith("adhoc-"):
         return _no_gate_result()
 
@@ -76,6 +89,13 @@ def get_pass_status(route_id: str) -> dict:
 
     if use_mock() or os.getenv("MOCK_PASS_CLOSED", "false").lower() == "true":
         return _mock_pass_status(pass_id, route_id)
+
+    # Check predictable seasonal closures before calling the API.
+    # SR-20 and SR-410 passes are not reliably covered by the WSDOT Mountain
+    # Pass Conditions API — their seasonal closures are date-driven facts.
+    seasonal = _check_seasonal_closure(pass_id, trip_start_date)
+    if seasonal is not None:
+        return seasonal
 
     api_key = os.getenv(_KEY_ENV, "")
     if not api_key:
@@ -87,6 +107,42 @@ def get_pass_status(route_id: str) -> dict:
     except Exception as e:
         log.warning(f"WSDOT unavailable — assuming pass is open. Error: {e}")
         return {**_open_result(pass_id), "_fallback": True, "_error": str(e)}
+
+
+def _check_seasonal_closure(pass_id: int, trip_start_date: str | None) -> dict | None:
+    """
+    Return a closed result if the pass is in its predictable seasonal closure
+    window on the trip start date.  Returns None if no seasonal rule applies
+    (caller should proceed to live API check).
+    """
+    if pass_id not in _SEASONAL_CLOSURES or not trip_start_date:
+        return None
+    try:
+        d = date.fromisoformat(trip_start_date)
+    except (ValueError, TypeError):
+        return None
+
+    close_month, open_month = _SEASONAL_CLOSURES[pass_id]
+    # Closure spans the year boundary: month >= close_month OR month <= open_month
+    in_closure = d.month >= close_month or d.month <= open_month
+    if not in_closure:
+        return None
+
+    pass_name = _PASS_NAMES.get(pass_id, f"Pass {pass_id}")
+    log.info(
+        f"WSDOT seasonal: {pass_name} is in seasonal closure window "
+        f"(trip date {trip_start_date}, closes month {close_month}, opens after month {open_month})"
+    )
+    return {
+        "pass_id":           pass_id,
+        "pass_name":         pass_name,
+        "is_open":           False,
+        "road_condition":    "Seasonal Closure",
+        "weather_condition": "Not Available",
+        "restriction":       f"{pass_name} - seasonal closure (typically Nov-Apr)",
+        "_gated":            True,
+        "_seasonal":         True,
+    }
 
 
 def _live_pass_status(pass_id: int, api_key: str) -> dict:
