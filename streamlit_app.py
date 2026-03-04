@@ -697,7 +697,7 @@ def _show_brief() -> None:
         if conditions.get("_historical"):
             st.caption("Typical seasonal averages · live forecasts available within 7 days of your trip")
         else:
-            st.caption("Live data")
+            st.caption("Live data · Sources: NWS · AirNow · NIFC · USGS · iNaturalist · WSDOT")
         _rl = {"low": 0, "medium": 1, "high": 2}
 
         if conditions.get("_historical"):
@@ -744,7 +744,7 @@ def _show_brief() -> None:
                 descs = list(dict.fromkeys(d.get("summary", "") for d in w_days if d.get("summary")))
                 temps = [d["high_f"] for d in w_days if d.get("high_f")]
                 temp_str = f", {min(temps)}–{max(temps)}°F" if temps else ""
-                st.markdown(f"- **Weather:** {', '.join(descs[:3])}{temp_str}")
+                st.markdown(f"- **Weather:** {', '.join(descs[:3])}{temp_str} · *NWS*")
 
             # AQI — worst category + AQI range
             a_days = conditions.get("aqi", {}).get("days", [])
@@ -753,7 +753,7 @@ def _show_brief() -> None:
                 aqis = [d["aqi"] for d in a_days if d.get("aqi")]
                 aqi_str = (f" (AQI {min(aqis)}–{max(aqis)})" if len(aqis) > 1
                            else f" (AQI {aqis[0]})" if aqis else "")
-                st.markdown(f"- **Air quality:** {worst_a.get('category', 'Unknown')}{aqi_str}")
+                st.markdown(f"- **Air quality:** {worst_a.get('category', 'Unknown')}{aqi_str} · *AirNow*")
 
             # Fire — risk level + nearest fire if present
             fire = conditions.get("fire", {})
@@ -762,7 +762,7 @@ def _show_brief() -> None:
                 fires = fire.get("active_fires_nearby", [])
                 fire_note = (f" · {fires[0]['name']} ({fires[0].get('distance_miles', '?')} mi)"
                              if fires else "")
-                st.markdown(f"- **Fire:** {fire_risk.capitalize()} risk{fire_note}")
+                st.markdown(f"- **Fire:** {fire_risk.capitalize()} risk{fire_note} · *NIFC*")
 
             # Water — crossing count + worst risk
             crossings = conditions.get("water", {}).get("crossings", [])
@@ -771,7 +771,7 @@ def _show_brief() -> None:
                 n = len(crossings)
                 st.markdown(
                     f"- **Water crossings:** {n} crossing{'s' if n > 1 else ''}"
-                    f" · highest: {worst_c.get('risk_level', 'low').capitalize()}"
+                    f" · highest: {worst_c.get('risk_level', 'low').capitalize()} · *USGS*"
                 )
 
             # Wildlife — bear/cougar sightings
@@ -787,10 +787,10 @@ def _show_brief() -> None:
                     parts.append(f"{cougars} cougar{'s' if cougars != 1 else ''}")
                 st.markdown(
                     f"- **Wildlife:** {', '.join(parts)} sighted in last 30 days"
-                    f" · {w_risk.capitalize()} risk"
+                    f" · {w_risk.capitalize()} risk · *iNaturalist*"
                 )
             elif w_risk == "low":
-                st.markdown("- **Wildlife:** No bear or cougar sightings in last 30 days")
+                st.markdown("- **Wildlife:** No bear or cougar sightings in last 30 days · *iNaturalist*")
 
             # Road access — live pass status
             pass_info = conditions.get("pass", {}) or {}
@@ -800,7 +800,7 @@ def _show_brief() -> None:
                 road_str = road_cond
                 if restriction:
                     road_str += f" · {restriction}"
-                st.markdown(f"- **Road access:** {pass_info['pass_name']} — {road_str}")
+                st.markdown(f"- **Road access:** {pass_info['pass_name']} — {road_str} · *WSDOT*")
 
             # Conditions summary — always shown; explains what the data means for this route
             notes = conditions.get("summary") or conditions.get("synthesis_notes", "")
