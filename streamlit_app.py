@@ -16,7 +16,7 @@ from pathlib import Path
 import anthropic
 import folium
 import streamlit as st
-from streamlit_folium import st_folium
+import streamlit.components.v1 as _stc
 
 import orchestrator
 from agents.assessment import gear as gear_module
@@ -1097,32 +1097,35 @@ def _show_brief() -> None:
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
+@st.cache_data
 def _load_geometry(route_id: str) -> list[list[float]]:
-    """Load trail geometry from data/geometry/{route_id}.json. Returns [[lat, lon], ...]."""
+    """Load trail geometry from data/geometry/{route_id}.json. Cached per route_id."""
     geo_path = Path("data") / "geometry" / f"{route_id}.json"
     if geo_path.exists():
         return [[p["lat"], p["lon"]] for p in json.loads(geo_path.read_text())]
     return []
 
 
-def _show_route_map(route: dict) -> None:
-    """Render a folium trail map inside a collapsed expander."""
-    route_id  = route.get("id", "")
-    geo_pts   = _load_geometry(route_id)
-    has_geo   = bool(geo_pts)
-    coords    = geo_pts or [[w["lat"], w["lon"]] for w in route.get("waypoints", [])]
+@st.cache_data
+def _build_route_map_html(route_id: str, route_data_json: str) -> tuple[str, bool]:
+    """
+    Build folium map HTML for a route. Cached per route so construction only
+    happens once per session — subsequent re-renders (Q&A, button clicks, etc.)
+    skip the folium build entirely and serve the cached HTML string.
+    """
+    route   = json.loads(route_data_json)
+    geo_pts = _load_geometry(route_id)
+    has_geo = bool(geo_pts)
+    coords  = geo_pts or [[w["lat"], w["lon"]] for w in route.get("waypoints", [])]
 
     if not coords:
-        return
+        return "", False
 
     lats, lons = [c[0] for c in coords], [c[1] for c in coords]
-
     m = folium.Map(tiles="OpenStreetMap", prefer_canvas=True)
 
-    # Trail polyline
     folium.PolyLine(coords, color="#3B82F6", weight=3, opacity=0.85).add_to(m)
 
-    # Named waypoint markers
     for wp in route.get("waypoints", []):
         folium.CircleMarker(
             location=[wp["lat"], wp["lon"]],
@@ -1139,7 +1142,6 @@ def _show_route_map(route: dict) -> None:
             tooltip=wp["name"],
         ).add_to(m)
 
-    # Water crossing markers
     for wc in route.get("water_crossings", []):
         folium.CircleMarker(
             location=[wc["lat"], wc["lon"]],
@@ -1152,7 +1154,6 @@ def _show_route_map(route: dict) -> None:
             tooltip=wc["name"],
         ).add_to(m)
 
-    # Trailhead marker
     th = route.get("trailhead", {})
     if th.get("lat") and th.get("lon"):
         folium.Marker(
@@ -1163,10 +1164,18 @@ def _show_route_map(route: dict) -> None:
         ).add_to(m)
 
     m.fit_bounds([[min(lats), min(lons)], [max(lats), max(lons)]])
+    return m._repr_html_(), has_geo
 
+
+def _show_route_map(route: dict) -> None:
+    """Render the cached route map HTML inside a collapsed expander."""
+    route_id = route.get("id", "")
+    html, has_geo = _build_route_map_html(route_id, json.dumps(route, sort_keys=True))
+    if not html:
+        return
+    source = "OSM trail geometry" if has_geo else "waypoint approximation"
     with st.expander("Route Map", expanded=False):
-        st_folium(m, use_container_width=True, height=420, returned_objects=[])
-        source = "OSM trail geometry" if has_geo else "waypoint approximation"
+        _stc.html(html, height=420, scrolling=False)
         st.caption(f"Trail line from {source} · Click markers for details")
 
 
