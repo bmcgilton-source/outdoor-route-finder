@@ -285,7 +285,7 @@ def run(user_input: dict, progress_cb=None) -> dict:
     _cb(f"Route selected: {route['name']}  ·  {route['difficulty']}, {route['sub_region']}")
 
     # Step 1.5: Pre-flight pass gate — bail early if access road is closed
-    trip_start = user_input.get("start_date")
+    trip_start = user_input.get("dates", {}).get("start")
     pass_status = wa_dot_tool.get_pass_status(route["id"], trip_start_date=trip_start)
     trip_context["pass_status"] = pass_status  # store always; included in conditions section even when open
     if not pass_status.get("is_open") and pass_status.get("_gated"):
