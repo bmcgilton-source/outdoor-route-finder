@@ -1,5 +1,53 @@
 # TrailOps — Future Enhancements
 
+## Quality & Reliability Improvements
+
+### Upgrade Intake Agent to Sonnet
+The intake agent currently uses Haiku, which occasionally fuzzy-matches wrong trails, asks
+questions it shouldn't (difficulty, route type for named trails), and ignores prompt rules.
+Switching to Sonnet for the intake conversation eliminates most of these issues at ~$0.01/session.
+
+**Change:** In `streamlit_app.py`, replace `_HAIKU_MODEL` with `_SONNET_MODEL` for the
+intake `_claude_create` call.
+
+---
+
+### Validate Ad-Hoc Route Name After Generation
+When `_generate_adhoc_route` succeeds but Claude returns data for the wrong trail (hallucination),
+the pipeline plans a completely different hike than the one requested. Fix: after generation,
+verify that the returned route name contains at least one word from the requested trail name.
+If not, treat it as a failure and return None.
+
+---
+
+### Retry on JSON Parse Failure (Ad-Hoc Generation)
+If `_generate_adhoc_route` returns truncated or malformed JSON, retry once with a note to the
+model to return only the JSON object. One retry recovers most transient failures without
+significantly increasing latency.
+
+---
+
+### Persist Ad-Hoc Routes to GitHub via API
+On Streamlit Cloud, writes to `routes.json` are ephemeral — the container resets on restart.
+Fix: after a successful ad-hoc generation, commit the new route to the repo via the GitHub
+Contents API (`PUT /repos/{owner}/{repo}/contents/data/routes.json`). Requires a GitHub PAT
+with `contents:write` scope stored in Streamlit secrets.
+
+**Complexity:** Medium — need to base64-encode the file, include the current file SHA,
+handle concurrent writes (unlikely but possible). Worth doing once the route catalog is
+actively growing from user searches.
+
+---
+
+### Smoke Tests for Intake + Pipeline
+No automated tests exist — bugs are discovered in production. Add a `tests/` directory with:
+- Intake JSON output tests: mock Claude responses, verify correct `route_id`/`requested_trail`
+  parsing for a handful of known inputs
+- Pipeline smoke tests: run each mock scenario (1–4) and assert the brief `status` field is correct
+- Run on push via GitHub Actions
+
+---
+
 ## Campsite Data (Overpass API)
 Add a `campsites` array to each route in `routes.json`, populated from OSM via Overpass API
 (`tourism=camp_site` + `backcountry=yes` within the route bounding box), with cumulative mileage
