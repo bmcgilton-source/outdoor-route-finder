@@ -37,8 +37,9 @@ Tactics available:
 
 You may NOT:
 - Change the route (same start/end trailhead, same waypoints)
-- Add more days than the original trip_length
+- Add more days than the original trip_length_days
 - Remove a day
+- Split a 1-day trip into multiple days — if trip_length_days is 1, the revised itinerary must have exactly 1 day
 - Change or omit the "date" field on any day — preserve each day's exact YYYY-MM-DD date
 
 Return the revised itinerary JSON with the SAME structure as the original, plus a \
@@ -61,12 +62,13 @@ def run(trip_context: dict) -> dict:
     trace = trip_context.setdefault("reasoning_trace", [])
     trace.append({"agent": "replanner", "event": "start"})
 
-    route = trip_context["selected_route"]
-    itinerary = trip_context["itinerary"]
-    conditions = trip_context["conditions"]
-    risk = trip_context["risk"]
+    route          = trip_context["selected_route"]
+    itinerary      = trip_context["itinerary"]
+    conditions     = trip_context["conditions"]
+    risk           = trip_context["risk"]
+    trip_length    = trip_context.get("user_input", {}).get("trip_length_days", len(itinerary.get("days", [])))
 
-    user_message = _build_user_message(route, itinerary, conditions, risk)
+    user_message = _build_user_message(route, itinerary, conditions, risk, trip_length)
 
     response = _client.messages.create(
         model=_MODEL,
@@ -94,11 +96,12 @@ def run(trip_context: dict) -> dict:
 
 
 def _build_user_message(
-    route: dict, itinerary: dict, conditions: dict, risk: dict
+    route: dict, itinerary: dict, conditions: dict, risk: dict, trip_length: int
 ) -> str:
     return (
         f"Replan this itinerary to reduce risk.\n\n"
-        f"Route: {route['name']} ({route['route_type']})\n\n"
+        f"Route: {route['name']} ({route['route_type']})\n"
+        f"trip_length_days: {trip_length} — the revised itinerary MUST have exactly {trip_length} day(s)\n\n"
         f"Current itinerary:\n{json.dumps(itinerary, indent=2)}\n\n"
         f"Risk assessment:\n{json.dumps(risk, indent=2)}\n\n"
         f"Conditions summary: {conditions.get('synthesis_notes', '')}\n\n"
