@@ -6,3 +6,4 @@ output/
 .venv/
 venv/
 .pytest_cache/
+logs/
