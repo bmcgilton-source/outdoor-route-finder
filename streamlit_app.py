@@ -24,7 +24,8 @@ from ui import _build_system, _is_valid_input, _save_adhoc_route, _try_parse_jso
 # ── Constants ─────────────────────────────────────────────────────────────────
 
 _client      = anthropic.Anthropic()
-_HAIKU_MODEL = CONFIG["claude"]["haiku_model"]  # haiku — intake, Q&A
+_HAIKU_MODEL  = CONFIG["claude"]["haiku_model"]   # haiku — Q&A chat
+_SONNET_MODEL = CONFIG["claude"]["model"]         # sonnet — intake
 
 # risk_scorer emits: low / medium / high
 # display labels:    LOW / MODERATE / HIGH / CRITICAL
@@ -192,7 +193,7 @@ def _intake_respond() -> None:
         with st.spinner(""):
             try:
                 response = _claude_create(
-                    model=_HAIKU_MODEL,
+                    model=_SONNET_MODEL,
                     max_tokens=512,
                     system=st.session_state.intake_system,
                     messages=st.session_state.intake_messages,
