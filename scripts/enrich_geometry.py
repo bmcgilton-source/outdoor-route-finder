@@ -21,6 +21,8 @@ import sys
 import time
 from pathlib import Path
 
+sys.stdout.reconfigure(encoding="utf-8")
+
 import requests
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
