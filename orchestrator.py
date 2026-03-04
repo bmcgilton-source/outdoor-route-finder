@@ -352,6 +352,11 @@ def _select_route(user_input: dict) -> dict | None:
             user_input.setdefault("difficulty", generated["difficulty"])
             user_input.setdefault("route_type", generated["route_type"])
             return generated
+        # Generation failed — don't fall through to generic scoring and silently pick a
+        # different trail. The user named a specific destination; return None so the
+        # pipeline shows "no route found" rather than planning the wrong hike.
+        log.error(f"Orchestrator: ad-hoc generation failed for '{requested_trail}' — no route returned")
+        return None
 
     _MIN_MPD = 5.0
     _MAX_MPD = 15.0

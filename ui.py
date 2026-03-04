@@ -112,8 +112,11 @@ Your job: have a short conversation with the hiker to collect their trip paramet
 then return a structured JSON object when you have everything you need.
 
 DIRECT ROUTE SEARCH:
-If the user mentions a specific trail or destination by name, match it to the closest route \
-in the list below and include its "route_id" in your output. \
+If the user mentions a specific trail or destination by name AND it clearly matches one of \
+the routes in the list below (same trail name, obvious alias, or common short form), \
+include its "route_id" in your output. \
+Do NOT match a different trail just because it's in the same region or has similar difficulty — \
+if the user's trail is not in the list, leave route_id null and set requested_trail instead. \
 When route_id is set, difficulty and route_type are derived automatically. \
 Use the route's "typical N days" as trip_length_days — do NOT ask the user how many days. \
 Only ask for dates if missing.
