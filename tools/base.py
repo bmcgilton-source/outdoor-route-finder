@@ -26,6 +26,7 @@ def mock_scenario() -> int:
     1 = clean conditions (Goat Rocks)
     2 = high AQI/smoke (Enchantments)
     3 = weather + river crossing risk (Olympic High Divide)
+    4 = SR-20 seasonal closure (Maple Pass Loop / Pasayten) — pipeline gates before Intelligence Agent
     """
     return int(os.getenv("MOCK_SCENARIO", "1"))
 

@@ -184,24 +184,6 @@ above three due to data inconsistency.
 
 ---
 
-## iNaturalist Wildlife Data
-Add `tools/inaturalist.py` as a new Intelligence Agent tool (parallel with existing tools).
-Query by lat/lng bounding box around route waypoints + date range. Open REST API, no key
-required for basic queries.
-
-**Use cases:**
-- Recent bear/cougar sightings → feeds gear sub-agent (bear spray, canister) and Assessment
-  Agent (wildlife risk factor)
-- Wildflower bloom observations → trip timing signal for scenic routes (Enchantments, Maple
-  Pass)
-- Historical observations → seasonal wildlife patterns for the >7 day historical conditions
-  path
-
-Currently the only wildlife data gap in the Intelligence Agent tool set. Clean bounding box +
-date range + taxon query model; relatively low integration lift.
-
----
-
 ## Ad-Hoc Route Generation — Hybrid (Overpass + Open Topo Data)
 Upgrade the Claude-only ad-hoc route generation with accurate geodata from real APIs.
 

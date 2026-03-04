@@ -459,6 +459,26 @@ def _show_brief() -> None:
             _reset()
         return
 
+    # ── Pass closed — trailhead not accessible ────────────────────────────────
+    if status == "pass_closed":
+        pass_s = brief.get("pass_status", {})
+        route  = brief.get("route", {})
+        st.error(
+            f"**{pass_s.get('pass_name', 'Access road')} is currently closed** — "
+            f"the trailhead for {route.get('name', 'this route')} is not accessible.",
+            icon="🚧",
+        )
+        if pass_s.get("road_condition"):
+            st.write(f"**Road condition:** {pass_s['road_condition']}")
+        if pass_s.get("restriction"):
+            st.write(f"**Restriction:** {pass_s['restriction']}")
+        st.write("**What to do:**")
+        for step in brief.get("suggested_next_steps", []):
+            st.write(f"→ {step}")
+        if st.button("Start over"):
+            _reset()
+        return
+
     # ── Normal brief (ok or plan_b) ───────────────────────────────────────────
     route             = brief.get("route", {})
     risk              = brief.get("risk", {})
@@ -707,6 +727,11 @@ def _show_brief() -> None:
                 st.markdown(f"- **Wildlife:** Bear activity {w_hist['bear_activity_level'].lower()} for this month")
             elif w_hist.get("note"):
                 st.markdown(f"- **Wildlife:** {w_hist['note']}")
+            # Road access — historical path: just note which pass gates the route
+            pass_info = conditions.get("pass", {}) or {}
+            if pass_info.get("_gated") and pass_info.get("pass_name"):
+                st.markdown(f"- **Road access:** {pass_info['pass_name']} — seasonal status varies")
+
             notes = conditions.get("synthesis_notes") or conditions.get("summary", "")
             if notes:
                 st.caption(notes)
@@ -766,6 +791,16 @@ def _show_brief() -> None:
                 )
             elif w_risk == "low":
                 st.markdown("- **Wildlife:** No bear or cougar sightings in last 30 days")
+
+            # Road access — live pass status
+            pass_info = conditions.get("pass", {}) or {}
+            if pass_info.get("_gated") and pass_info.get("pass_name"):
+                road_cond = pass_info.get("road_condition", "Open")
+                restriction = pass_info.get("restriction")
+                road_str = road_cond
+                if restriction:
+                    road_str += f" · {restriction}"
+                st.markdown(f"- **Road access:** {pass_info['pass_name']} — {road_str}")
 
             # Conditions summary — always shown; explains what the data means for this route
             notes = conditions.get("summary") or conditions.get("synthesis_notes", "")

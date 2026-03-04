@@ -24,6 +24,7 @@ from agents import assessment_agent, brief_reviewer, intelligence_agent
 from agents import day_planner
 from logger import get_logger
 from tools.base import CONFIG
+from tools import wa_dot as wa_dot_tool
 
 log = get_logger(__name__)
 
@@ -282,6 +283,22 @@ def run(user_input: dict, progress_cb=None) -> dict:
         {"agent": "orchestrator", "event": "route_selected", "route": route["id"]}
     )
     _cb(f"Route selected: {route['name']}  ·  {route['difficulty']}, {route['sub_region']}")
+
+    # Step 1.5: Pre-flight pass gate — bail early if access road is closed
+    pass_status = wa_dot_tool.get_pass_status(route["id"])
+    trip_context["pass_status"] = pass_status  # store always; included in conditions section even when open
+    if not pass_status.get("is_open") and pass_status.get("_gated"):
+        log.warning(
+            f"Orchestrator: {pass_status['pass_name']} is closed — "
+            f"aborting pipeline for {route['name']}"
+        )
+        _cb(f"Access road check: {pass_status['pass_name']} is currently closed")
+        trip_context["reasoning_trace"].append({
+            "agent": "orchestrator",
+            "event": "pass_closed",
+            "pass_name": pass_status["pass_name"],
+        })
+        return _assemble_pass_closed_brief(trip_context)
 
     # Step 2: Intelligence Agent + Day Planner in parallel
     # Note: these run in worker threads — progress_cb is NOT passed in to avoid
@@ -552,6 +569,7 @@ def _assemble_brief(trip_context: dict) -> dict:
                 "water":            conditions.get("water", {}),
                 "wildlife":         conditions.get("wildlife", {}),
                 "community_reports": conditions.get("community_reports", {}),
+                "pass":             trip_context.get("pass_status"),
             },
             "risk":       risk,
             "gear":       gear,
@@ -589,6 +607,7 @@ def _assemble_brief(trip_context: dict) -> dict:
             "water":             conditions.get("water", {}),
             "wildlife":          conditions.get("wildlife", {}),
             "community_reports": conditions.get("community_reports", {}),
+            "pass":              trip_context.get("pass_status"),
         },
         "risk": risk,
         "gear": gear,
@@ -620,6 +639,50 @@ def _assemble_brief(trip_context: dict) -> dict:
         brief["plan_b"] = plan_b
 
     return brief
+
+
+def _assemble_pass_closed_brief(trip_context: dict) -> dict:
+    """Return a trip brief indicating the access pass is closed."""
+    route = trip_context["selected_route"]
+    pass_status = trip_context["pass_status"]
+    pass_name = pass_status.get("pass_name", "Access road")
+
+    # Build a pass-specific reopen hint where we know the seasonal pattern
+    reopen_hint = None
+    if pass_status.get("pass_id") == 17:
+        reopen_hint = "North Cascades Highway (SR-20) typically reopens in late April"
+    elif pass_status.get("pass_id") == 22:
+        reopen_hint = "Cayuse Pass (SR-410) typically reopens in late May"
+
+    next_steps = [
+        f"Check live pass status at wsdot.wa.gov/travel/pass-reports",
+        f"Consider a route not accessed via {pass_name}",
+    ]
+    if reopen_hint:
+        next_steps.insert(1, reopen_hint + " — plan for a later date")
+
+    return {
+        "status": "pass_closed",
+        "route": {
+            "id":                route["id"],
+            "name":              route["name"],
+            "sub_region":        route["sub_region"],
+            "difficulty":        route["difficulty"],
+            "route_type":        route.get("route_type", ""),
+            "total_miles":       route["total_miles"],
+            "elevation_gain_ft": route["elevation_gain_ft"],
+            "description":       route.get("description", ""),
+            "reservations":      route.get("reservations", {}),
+        },
+        "pass_status": {
+            "pass_name":         pass_status.get("pass_name"),
+            "road_condition":    pass_status.get("road_condition", ""),
+            "weather_condition": pass_status.get("weather_condition", ""),
+            "restriction":       pass_status.get("restriction"),
+            "is_open":           False,
+        },
+        "suggested_next_steps": next_steps,
+    }
 
 
 def _miles_per_day_ok(total_miles: float, trip_days: int, difficulty: str) -> bool:

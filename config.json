@@ -47,6 +47,18 @@
       },
       "notes": "No key required but free key improves rate limits. Register at https://api.waterdata.usgs.gov/signup/. Legacy waterservices.usgs.gov retiring early 2027."
     },
+    "wa_dot": {
+      "base_url": "https://www.wsdot.wa.gov/traffic/api/MountainPassConditions/MountainPassConditionsREST.svc",
+      "endpoints": {
+        "pass_conditions": "/GetMountainPassConditionsAsJSON"
+      },
+      "auth": {
+        "type": "api_key",
+        "param": "AccessCode",
+        "env_var": "WSDOT_TRAFFIC_API_KEY"
+      },
+      "notes": "Free key at https://wsdot.wa.gov/traffic/api/. No key needed for mock mode — fail-open if key not set."
+    },
     "nifc": {
       "base_url": "https://services3.arcgis.com/T4QMspbfLg3qTGWY/arcgis/rest/services",
       "endpoints": {
