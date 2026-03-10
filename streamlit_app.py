@@ -205,8 +205,8 @@ def _intake_respond() -> None:
                     system=st.session_state.intake_system,
                     messages=st.session_state.intake_messages,
                 )
-            except Exception as e:
-                st.warning(f"The AI service is temporarily unavailable. Please try again in a moment. ({type(e).__name__}: {e})")
+            except Exception:
+                st.warning("The AI service is temporarily unavailable. Please try again in a moment.")
                 return
 
         parsed = _try_parse_json(response)
